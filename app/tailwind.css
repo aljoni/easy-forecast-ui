@@ -2,11 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+/*noinspection ALL*/
+@view-transition {
+    navigation: auto;
+}
+
+/*noinspection ALL*/
+::view-transition-old(root) {
+    animation: fadeOut 0.25s ease-out;
+}
+
+/*noinspection ALL*/
+::view-transition-new(root) {
+    animation: fadeIn 0.25s ease-in;
+}
+
+.transition-menu-item-active {
+    /*noinspection CssUnknownProperty*/
+    view-transition-name: current-menu-item;
+}
+
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+    @apply bg-stone-100;
+}
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+.transition-page-content {
+    /*noinspection CssUnknownProperty*/
+    view-transition-name: page-content;
+}
+
+.transition-page-title {
+    /*noinspection CssUnknownProperty*/
+    view-transition-name: page-title;
 }
