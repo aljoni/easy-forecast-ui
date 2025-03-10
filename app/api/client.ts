@@ -1,4 +1,4 @@
-import {ApiResponse} from "~/types/ApiResponse";
+import {ApiResponse} from "~/types/api/response/ApiResponse";
 
 const API_BASE_URL = "http://localhost:8094";
 
@@ -37,7 +37,6 @@ const performRequest = async <T>(method: string, path: string, query: Record<str
     }
 
     const rawResponse = await response.text();
-    console.info("response", rawResponse);
 
     try {
         return JSON.parse(rawResponse);

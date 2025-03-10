@@ -36,7 +36,7 @@ const MenuTile: React.FC<MenuTileProps> = ({
                                                expanded = false,
                                                onClick
                                            }) => {
-    const active = to && to == currentPath;
+    const active = to && to === currentPath;
 
     return (
         <button
@@ -73,9 +73,8 @@ const SideMenuItem: React.FC<SideMenuItemProps> = ({label, to, currentPath, subI
     const [expanded, setExpanded] = useState(false);
 
     useEffect(() => {
-        const isExpanded = localStorage.getItem(`menu_item.${label}.is_open`) === "true";
-        setExpanded(isExpanded);
-    }, [label]);
+        setExpanded(localStorage.getItem(`menu_item.${label}.is_open`) === "true");
+    }, []); // Runs only once on mount
 
     const handleToggle = useCallback(() => {
         if (subItems.length > 0) {
@@ -86,7 +85,9 @@ const SideMenuItem: React.FC<SideMenuItemProps> = ({label, to, currentPath, subI
         if (to) {
             navigate(to, {viewTransition: true});
         }
-    }, [expanded, label, to, navigate, subItems]);
+    }, [expanded, to, navigate, subItems.length]); // Stable dependency array
+
+    const hasSubItems = subItems.length > 0;
 
     return (
         <>
@@ -96,15 +97,14 @@ const SideMenuItem: React.FC<SideMenuItemProps> = ({label, to, currentPath, subI
                 currentPath={currentPath}
                 indented={indented}
                 onClick={handleToggle}
-                expandable={subItems.length > 0}
+                expandable={hasSubItems}
                 expanded={expanded}
             />
-            {(subItems.length > 0) && (
+            {hasSubItems && (
                 <div
                     className={twMerge([
                         "overflow-hidden transition-all duration-200 flex flex-col gap-2 mt-1",
-                        expanded && "h-fit",
-                        !expanded && "h-0",
+                        expanded ? "h-fit" : "h-0",
                     ])}
                 >
                     {subItems.map((item) => (
@@ -113,8 +113,7 @@ const SideMenuItem: React.FC<SideMenuItemProps> = ({label, to, currentPath, subI
                 </div>
             )}
         </>
-    )
-        ;
+    );
 }
 
 export {SideMenuItem};

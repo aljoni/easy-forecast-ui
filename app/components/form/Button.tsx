@@ -1,12 +1,12 @@
 import React from "react";
 import {twMerge} from "tailwind-merge";
-import {ElementSize, ElementVariant} from "~/types/ElementInfo";
+import {ComponentSize, ComponentVariant} from "~/types/ComponentInfo";
 
 type ButtonProps = {
     children: React.ReactNode;
     onClick?: () => void;
-    variant?: ElementVariant;
-    size?: ElementSize;
+    variant?: ComponentVariant;
+    size?: ComponentSize;
     icon?: React.ReactNode;
     accessibilityLabel?: string;
 }

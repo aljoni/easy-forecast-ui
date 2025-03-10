@@ -2,7 +2,7 @@ import type {MetaFunction} from "@remix-run/node";
 import Page from "~/components/layout/Page";
 import Card from "~/components/Card";
 import Button from "~/components/form/Button";
-import {ElementSize, ElementVariant} from "~/types/ElementInfo";
+import {ComponentSize, ComponentVariant} from "~/types/ComponentInfo";
 import TextField from "~/components/form/TextField";
 import {useSearchParams} from "@remix-run/react";
 import {createSubscription, sendChargeIdRequest} from "~/api/subscription";
@@ -49,8 +49,8 @@ export default function Index() {
                             {variants.map((variant) => (
                                 <Button
                                     key={`${size}-${variant}`}
-                                    variant={variant as ElementVariant}
-                                    size={size as ElementSize}
+                                    variant={variant as ComponentVariant}
+                                    size={size as ComponentSize}
                                     accessibilityLabel={`${size} ${variant} button`}
                                 >
                                     {size} {variant}
@@ -73,8 +73,8 @@ export default function Index() {
                                         }}
                                         prefix="£"
                                         suffix="%"
-                                        variant={variant as ElementVariant}
-                                        size={size as ElementSize}
+                                        variant={variant as ComponentVariant}
+                                        size={size as ComponentSize}
                                     />
                                     <TextField
                                         label={`${size} ${variant} text field`}
@@ -82,8 +82,8 @@ export default function Index() {
                                         onChange={() => {
                                         }}
                                         disabled
-                                        variant={variant as ElementVariant}
-                                        size={size as ElementSize}
+                                        variant={variant as ComponentVariant}
+                                        size={size as ComponentSize}
                                     />
                                 </div>
                             ))}

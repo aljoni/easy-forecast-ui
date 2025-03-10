@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import CalculatorResultRow from "~/components/calculator/CalculatorResultRow";
 // import {
 //     getCalculationResult,
@@ -8,10 +8,17 @@ import CalculatorResultRow from "~/components/calculator/CalculatorResultRow";
 // } from "~/javaApi";
 import Card from "~/components/Card";
 import TextField from "~/components/form/TextField";
+import {Modal} from "~/components/Modal";
+import Button from "~/components/form/Button";
+import Dropdown from "~/components/form/Dropdown";
+import {FaFolderOpen, FaPlus} from "react-icons/fa6";
+import {FaSave} from "react-icons/fa";
+import {CalculationResult} from "~/types/api/request/CalculationResult";
+import {saveCalculationResult, updateCalculationResult} from "~/api/calculation";
 
 const ROASCalculator: React.FC = () => {
     // -- User provided values
-    // const [id, setId] = useState<string | null>(null);
+    const [id, setId] = useState<string | null>(null);
     const [name, setName] = useState<string>(`Result for ${new Date().toLocaleDateString()}`);
     const [grossRevenue, setGrossRevenue] = useState<string>("");
     const [cogs, setCogs] = useState<string>("");
@@ -28,8 +35,16 @@ const ROASCalculator: React.FC = () => {
     const [netPerOrder, setNetPerOrder] = useState<string>("£-.--");
     const [twelveMonthLTV, setTwelveMonthLTV] = useState<string>("£-.--");
 
-    // -- Modal ref
-    // const loadCalculationModalRef = useRef<LoadCalculationModalRef>(null);
+    // -- Modal state
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+    const handleOpenModal = useCallback(() => {
+        setIsModalOpen(true);
+    }, []);
+
+    const handleCloseModal = useCallback(() => {
+        setIsModalOpen(false);
+    }, []);
 
     useEffect(() => {
         try {
@@ -96,59 +111,57 @@ const ROASCalculator: React.FC = () => {
         }
     }, [frequencyOfPurchase, currentCustomerAcquisitionCost, rawProfitPerOrder]);
 
-    // const handleSave = () => {
-    //     let model: AddCalculationResult = {
-    //         name,
-    //         calculationType: "ROAS",
-    //         userData: JSON.stringify({
-    //             __version: 1,
-    //             grossRevenue,
-    //             cogs,
-    //             warehouseCost,
-    //             packagingCost,
-    //             shippingCost,
-    //             merchantFee,
-    //             currentCustomerAcquisitionCost,
-    //             frequencyOfPurchase,
-    //         }),
-    //     };
-    //
-    //     if (id === null) {
-    //         postCalculationResult(shopify.config.shop!, model).then((response) => {
-    //             if (response?.responseStatus !== "OK") {
-    //                 const errorString = response?.errors?.map((error) => error.message).join(", ");
-    //                 shopify.toast.show(`Error saving calculation: ${errorString}`, {isError: true});
-    //                 return;
-    //             }
-    //
-    //             setId(response?.payload?.id ?? null);
-    //             shopify.toast.show("Calculation saved");
-    //         });
-    //     } else {
-    //         putCalculationResult(shopify.config.shop!, id, model).then((response) => {
-    //             if (response?.responseStatus !== "OK") {
-    //                 const errorString = response?.errors?.map((error) => error.message).join(", ");
-    //                 shopify.toast.show(`Error updating calculation: ${errorString}`, {isError: true});
-    //                 return;
-    //             }
-    //
-    //             shopify.toast.show("Calculation updated");
-    //         });
-    //     }
-    // };
+    const handleSave = useCallback(() => {
+        const model: CalculationResult = {
+            name,
+            calculationType: "ROAS",
+            userData: JSON.stringify({
+                __version: 1,
+                grossRevenue,
+                cogs,
+                warehouseCost,
+                packagingCost,
+                shippingCost,
+                merchantFee,
+                currentCustomerAcquisitionCost,
+                frequencyOfPurchase,
+            }),
+        };
 
-    // const handleNew = () => {
-    //     setId(null);
-    //     setName(`Result for ${new Date().toLocaleDateString()}`);
-    //     setGrossRevenue("");
-    //     setCogs("");
-    //     setWarehouseCost("");
-    //     setPackagingCost("");
-    //     setShippingCost("");
-    //     setMerchantFee("");
-    //     setCurrentCustomerAcquisitionCost("");
-    //     setFrequencyOfPurchase("");
-    // };
+        if (id === null) {
+            saveCalculationResult(model).then((response) => {
+                if (response === null) {
+                    console.error("Error saving calculation");
+                    return;
+                }
+
+                setId(response?.id ?? null);
+                console.info("Calculation saved");
+            });
+        } else {
+            updateCalculationResult(id, model).then((response) => {
+                if (response === null) {
+                    console.error("Error updating calculation");
+                    return;
+                }
+
+                console.info("Calculation updated");
+            });
+        }
+    }, [grossRevenue, cogs, warehouseCost, packagingCost, shippingCost, merchantFee, currentCustomerAcquisitionCost, frequencyOfPurchase, id, name]);
+
+    const handleNew = useCallback(() => {
+        setId(null);
+        setName(`Result for ${new Date().toLocaleDateString()}`);
+        setGrossRevenue("");
+        setCogs("");
+        setWarehouseCost("");
+        setPackagingCost("");
+        setShippingCost("");
+        setMerchantFee("");
+        setCurrentCustomerAcquisitionCost("");
+        setFrequencyOfPurchase("");
+    }, []);
 
     // const handleLoadCalculation = async (resultId: string) => {
     //     if (!resultId) return;
@@ -177,40 +190,27 @@ const ROASCalculator: React.FC = () => {
 
     return (
         <>
-            {/*<LoadCalculationModal*/}
-            {/*    ref={loadCalculationModalRef}*/}
-            {/*    id="load-calculation-modal-r"*/}
-            {/*    options={async () => {*/}
-            {/*        const response = await getCalculationResultsByType(shopify.config.shop!, "ROAS");*/}
-
-            {/*        return response*/}
-            {/*            .map((result: CalculationResult): CalculationListItem => {*/}
-            {/*                return {*/}
-            {/*                    id: result.id!,*/}
-            {/*                    name: result.name,*/}
-            {/*                    calculationType: result.type,*/}
-            {/*                };*/}
-            {/*            })*/}
-            {/*            .sort((a, b) => a.name.localeCompare(b.name));*/}
-            {/*    }}*/}
-            {/*    onSelect={handleLoadCalculation}*/}
-            {/*/>*/}
-            <Card title="ROAS Calculator" className="w-[400px] mx-auto">
-                {/*<div className="flex flex-row gap-2">*/}
-                {/*    <Button variant="secondary" onClick={handleNew} accessibilityLabel="Create new calculation"*/}
-                {/*            icon={PlusIcon}>*/}
-                {/*        New*/}
-                {/*    </Button>*/}
-                {/*    <Button*/}
-                {/*        variant="secondary"*/}
-                {/*        onClick={() => loadCalculationModalRef.current?.open()}*/}
-                {/*        accessibilityLabel="Load saved calculation"*/}
-                {/*        icon={FolderIcon}*/}
-                {/*    >*/}
-                {/*        Load*/}
-                {/*    </Button>*/}
-                {/*</div>*/}
-                <div className="flex flex-col gap-3 mb-8">
+            <Modal title="Load Calculation" isOpen={isModalOpen} onClose={handleCloseModal}>
+                <Dropdown options={[]} value="" onChange={() => {
+                }}/>
+            </Modal>
+            <Card
+                title="ROAS Calculator"
+                className="w-[400px] mx-auto"
+                actions={[
+                    {
+                        label: "New",
+                        onClick: handleNew,
+                        icon: <FaPlus/>,
+                    },
+                    {
+                        label: "Load",
+                        onClick: handleOpenModal,
+                        icon: <FaFolderOpen/>,
+                    },
+                ]}
+            >
+                <div className="flex flex-col gap-4 mb-8">
                     <TextField
                         autoComplete="off"
                         label="Name"
@@ -221,7 +221,9 @@ const ROASCalculator: React.FC = () => {
                         autoComplete="off"
                         label="Gross Revenue After Tax"
                         prefix="£"
+                        fontType="mono"
                         value={grossRevenue}
+                        pattern="^[0-9]+(\.[0-9]{1,2})?$"
                         onChange={(value) => setGrossRevenue(value)}
                     />
                     <TextField
@@ -229,6 +231,8 @@ const ROASCalculator: React.FC = () => {
                         label="COGS"
                         prefix="£"
                         value={cogs}
+                        fontType="mono"
+                        pattern="^[0-9]+(\.[0-9]{1,2})?$"
                         onChange={(value) => setCogs(value)}
                     />
                     <TextField
@@ -236,6 +240,8 @@ const ROASCalculator: React.FC = () => {
                         label="Warehouse Cost"
                         prefix="£"
                         value={warehouseCost}
+                        fontType="mono"
+                        pattern="^[0-9]+(\.[0-9]{1,2})?$"
                         onChange={(value) => setWarehouseCost(value)}
                     />
                     <TextField
@@ -243,6 +249,8 @@ const ROASCalculator: React.FC = () => {
                         label="Packaging Cost"
                         prefix="£"
                         value={packagingCost}
+                        fontType="mono"
+                        pattern="^[0-9]+(\.[0-9]{1,2})?$"
                         onChange={(value) => setPackagingCost(value)}
                     />
                     <TextField
@@ -250,6 +258,8 @@ const ROASCalculator: React.FC = () => {
                         label="Shipping Cost"
                         prefix="£"
                         value={shippingCost}
+                        fontType="mono"
+                        pattern="^[0-9]+(\.[0-9]{1,2})?$"
                         onChange={(value) => setShippingCost(value)}
                     />
                     <TextField
@@ -257,6 +267,8 @@ const ROASCalculator: React.FC = () => {
                         label="Merchant Fee"
                         prefix="£"
                         value={merchantFee}
+                        fontType="mono"
+                        pattern="^[0-9]+(\.[0-9]{1,2})?$"
                         onChange={(value) => setMerchantFee(value)}
                     />
                     <TextField
@@ -264,17 +276,22 @@ const ROASCalculator: React.FC = () => {
                         label="Current Customer Acquisition Cost"
                         prefix="£"
                         value={currentCustomerAcquisitionCost}
+                        fontType="mono"
+                        pattern="^[0-9]+(\.[0-9]{1,2})?$"
                         onChange={(value) => setCurrentCustomerAcquisitionCost(value)}
                     />
                     <TextField
                         autoComplete="off"
                         label="Frequency of Purchase (per year)"
                         value={frequencyOfPurchase}
+                        fontType="mono"
                         suffix="%"
+                        pattern="^[0-9]+(\.[0-9]{1,2})?$"
                         onChange={(value) => setFrequencyOfPurchase(value)}
                     />
                 </div>
-                <div className="border border-slate-200 rounded-md">
+
+                <div className="border border-stone-200 rounded-lg mb-8">
                     <table className="w-full">
                         <tbody>
                         <CalculatorResultRow label="Profit per Order (without ad spend)"
@@ -284,6 +301,19 @@ const ROASCalculator: React.FC = () => {
                         </tbody>
                     </table>
                 </div>
+
+                <div className="flex flex-row gap-2 justify-end">
+                    <Button
+                        variant="success"
+                        size="sm"
+                        onClick={handleSave}
+                        accessibilityLabel="Save calculation"
+                        icon={<FaSave/>}
+                    >
+                        Save Calculation
+                    </Button>
+                </div>
+
                 {/*<Box paddingBlockStart="400">*/}
                 {/*    <InlineStack align="end">*/}
                 {/*        <Button onClick={handleSave} accessibilityLabel="Save calculation" variant="primary">*/}

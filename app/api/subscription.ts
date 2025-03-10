@@ -1,9 +1,7 @@
 import {performDelete, performPost, performPut} from "~/api/client";
-import {ApiSubscriptionResponse} from "~/types/api_responses/ApiSubscriptionResponse";
+import {ApiSubscriptionResponse} from "~/types/api/response/ApiSubscriptionResponse";
 
 const sendChargeIdRequest = async (chargeId: string): Promise<void> => {
-    console.info("Sending charge id request");
-
     const response = await performPut<void>({
         path: "/subscription",
         body: {
@@ -16,7 +14,7 @@ const sendChargeIdRequest = async (chargeId: string): Promise<void> => {
     }
 };
 
-const createSubscription = async (tier: string): Promise<ApiSubscriptionResponse> => {
+const createSubscription = async (tier: string): Promise<ApiSubscriptionResponse | null> => {
     const response = await performPost<ApiSubscriptionResponse>({
         path: "/subscription",
         body: {

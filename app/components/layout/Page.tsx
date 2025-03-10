@@ -11,12 +11,14 @@ const Page: React.FC<PageProps> = ({children, title}) => {
     const currentPath = useLocation().pathname;
 
     return (
-        <div className="flex flex-row h-screen">
+        <div className="flex flex-row h-screen pl-80">
             <Sidebar currentPath={currentPath}/>
-            <div className="p-8 flex-1 flex flex-col gap-8 overflow-auto">
-                <span className="text-xl transition-page-title">
-                    {title}
-                </span>
+            <div className="p-8 flex-1 flex flex-col gap-8">
+                {title && (
+                    <span className="text-xl transition-page-title">
+                        {title}
+                    </span>
+                )}
                 {children}
             </div>
         </div>
