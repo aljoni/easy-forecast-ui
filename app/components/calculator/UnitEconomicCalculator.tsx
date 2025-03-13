@@ -1,11 +1,23 @@
-import {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import CalculatorResultRow from "~/components/calculator/CalculatorResultRow";
 import Card from "~/components/Card";
 import TextField from "~/components/form/TextField";
+import {NotificationType} from "~/components/NotificationProvider";
+import {saveCalculationResult} from "~/api/calculation";
+import {CalculationResult} from "~/types/api/request/CalculationResult";
+import LoadCalculationModal from "~/components/calculator/LoadCalculationModal";
+import UnitEconomicCalculationData from "~/types/calculation/UnitEconomicCalculationData";
+import {FaFolderOpen, FaPlus} from "react-icons/fa6";
+import Button from "~/components/form/Button";
+import {FaSave} from "react-icons/fa";
 
-const UnitEconomicCalculator: React.FC = () => {
+type UnitEconomicCalculatorProps = {
+    onNotify?: (message: string, type: NotificationType) => void;
+};
+
+const UnitEconomicCalculator: React.FC<UnitEconomicCalculatorProps> = ({onNotify}) => {
     // -- User provided values
-    // const [id, setId] = useState<string | null>(null);
+    const [id, setId] = useState<string | null>(null);
     const [name, setName] = useState<string>(`Result for ${new Date().toLocaleDateString()}`);
     const [monthlySessions, setMonthlySessions] = useState<string>("");
     const [monthlyRevenue, setMonthlyRevenue] = useState<string>("");
@@ -31,8 +43,16 @@ const UnitEconomicCalculator: React.FC = () => {
     const [rawTotalCOGSCost, setRawTotalCOGSCost] = useState<number>(0);
     const [rawPerOrderProfit, setRawPerOrderProfit] = useState<number>(0);
 
-    // -- Modal ref
-    // const loadCalculationModalRef = useRef<LoadCalculationModalRef>(null);
+    // -- Modal
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+    const handleOpenModal = useCallback(() => {
+        setIsModalOpen(true);
+    }, []);
+
+    const handleCloseModal = useCallback(() => {
+        setIsModalOpen(false);
+    }, []);
 
     useEffect(() => {
         try {
@@ -152,219 +172,197 @@ const UnitEconomicCalculator: React.FC = () => {
         }
     }, [estimatedTotalMonthlyFixedCosts, rawPerOrderProfit]);
 
-    // const handleSave = () => {
-    //   let model: AddCalculationResult = {
-    //     name,
-    //     calculationType: "UNIT_ECONOMIC",
-    //     userData: JSON.stringify({
-    //       __version: 1,
-    //       monthlySessions,
-    //       monthlyRevenue,
-    //       monthlyOrders,
-    //       monthlyNewCustomers,
-    //       monthlyMarketingSpend,
-    //       cogsPercent,
-    //       averageCostToShip,
-    //       averageCostOfPackaging,
-    //       averageMerchantFee,
-    //       estimatedTotalMonthlyFixedCosts,
-    //     }),
-    //   };
-    //
-    //   if (id === null) {
-    //     postCalculationResult(shopify.config.shop!, model).then((response) => {
-    //       if (response?.responseStatus !== "OK") {
-    //         const errorString = response?.errors?.map((error) => error.message).join(", ");
-    //         shopify.toast.show(`Error saving calculation: ${errorString}`, { isError: true });
-    //         return;
-    //       }
-    //
-    //       setId(response?.payload?.id ?? null);
-    //       shopify.toast.show("Calculation saved");
-    //     });
-    //   } else {
-    //     putCalculationResult(shopify.config.shop!, id, model).then((response) => {
-    //       if (response?.responseStatus !== "OK") {
-    //         const errorString = response?.errors?.map((error) => error.message).join(", ");
-    //         shopify.toast.show(`Error updating calculation: ${errorString}`, { isError: true });
-    //         return;
-    //       }
-    //
-    //       shopify.toast.show("Calculation updated");
-    //     });
-    //   }
-    // };
+    const handleSave = () => {
+        const model: CalculationResult = {
+            name,
+            calculationType: "UNIT_ECONOMIC",
+            userData: JSON.stringify({
+                __version: 1,
+                monthlySessions,
+                monthlyRevenue,
+                monthlyOrders,
+                monthlyNewCustomers,
+                monthlyMarketingSpend,
+                cogsPercent,
+                averageCostToShip,
+                averageCostOfPackaging,
+                averageMerchantFee,
+                estimatedTotalMonthlyFixedCosts,
+            }),
+        };
 
-    // const handleNew = () => {
-    //     setId(null);
-    //     setName(`Result for ${new Date().toLocaleDateString()}`);
-    //     setMonthlySessions("");
-    //     setMonthlyRevenue("");
-    //     setMonthlyOrders("");
-    //     setMonthlyNewCustomers("");
-    //     setMonthlyMarketingSpend("");
-    //     setCogsPercent("");
-    //     setAverageCostToShip("");
-    //     setAverageCostOfPackaging("");
-    //     setAverageMerchantFee("");
-    //     setEstimatedTotalMonthlyFixedCosts("");
-    // };
+        if (id === null) {
+            saveCalculationResult(model).then((response) => {
+                if (response === null) {
+                    onNotify?.("Error saving calculation", "error");
+                    return;
+                }
 
-    // const handleLoadCalculation = async (resultId: string) => {
-    //   if (!resultId) return;
-    //
-    //   const response = await getCalculationResult(shopify.config.shop!, resultId);
-    //   if (!response) {
-    //     shopify.toast.show("Unable to load calculation", { isError: true });
-    //     return;
-    //   }
-    //
-    //   const data = response.data as UnitEconomicCalculationData;
-    //
-    //   setId(response.id!);
-    //   setName(response.name);
-    //   setMonthlySessions(data.monthlySessions);
-    //   setMonthlyRevenue(data.monthlyRevenue);
-    //   setMonthlyOrders(data.monthlyOrders);
-    //   setMonthlyNewCustomers(data.monthlyNewCustomers);
-    //   setMonthlyMarketingSpend(data.monthlyMarketingSpend);
-    //   setCogsPercent(data.cogsPercent);
-    //   setAverageCostToShip(data.averageCostToShip);
-    //   setAverageCostOfPackaging(data.averageCostOfPackaging);
-    //   setAverageMerchantFee(data.averageMerchantFee);
-    //   setEstimatedTotalMonthlyFixedCosts(data.estimatedTotalMonthlyFixedCosts);
-    //
-    //   shopify.toast.show("Calculation loaded");
-    // };
+                setId(response?.id ?? null);
+                onNotify?.("Calculation saved", "success");
+            });
+        }
+    };
+
+    const handleNew = () => {
+        setId(null);
+        setName(`Result for ${new Date().toLocaleDateString()}`);
+        setMonthlySessions("");
+        setMonthlyRevenue("");
+        setMonthlyOrders("");
+        setMonthlyNewCustomers("");
+        setMonthlyMarketingSpend("");
+        setCogsPercent("");
+        setAverageCostToShip("");
+        setAverageCostOfPackaging("");
+        setAverageMerchantFee("");
+        setEstimatedTotalMonthlyFixedCosts("");
+    };
+
+    const handleLoadCalculation = async (calculation: CalculationResult | null) => {
+        handleCloseModal();
+
+        if (!calculation) return;
+
+        const data = JSON.parse(calculation.userData) as UnitEconomicCalculationData;
+
+        setId(calculation.id!);
+        setName(calculation.name);
+        setMonthlySessions(data.monthlySessions);
+        setMonthlyRevenue(data.monthlyRevenue);
+        setMonthlyOrders(data.monthlyOrders);
+        setMonthlyNewCustomers(data.monthlyNewCustomers);
+        setMonthlyMarketingSpend(data.monthlyMarketingSpend);
+        setCogsPercent(data.cogsPercent);
+        setAverageCostToShip(data.averageCostToShip);
+        setAverageCostOfPackaging(data.averageCostOfPackaging);
+        setAverageMerchantFee(data.averageMerchantFee);
+        setEstimatedTotalMonthlyFixedCosts(data.estimatedTotalMonthlyFixedCosts);
+
+        onNotify?.("Calculation loaded", "success");
+    };
 
     return (
         <>
-            {/*<LoadCalculationModal*/}
-            {/*  ref={loadCalculationModalRef}*/}
-            {/*  id="load-calculation-modal-ue"*/}
-            {/*  options={async () => {*/}
-            {/*    const response = await getCalculationResultsByType(shopify.config.shop!, "UNIT_ECONOMIC");*/}
+            <LoadCalculationModal
+                onNotify={onNotify}
+                onClose={handleLoadCalculation}
+                isOpen={isModalOpen}
+            />
+            <Card
+                title="Unit Economic Calculator"
+                className="w-[450px] mx-auto"
+                actions={[
+                    {
+                        label: "New",
+                        onClick: handleNew,
+                        icon: <FaPlus/>,
+                    },
+                    {
+                        label: "Load",
+                        onClick: handleOpenModal,
+                        icon: <FaFolderOpen/>,
+                    },
+                ]}
+            >
+                <div className="flex flex-col gap-2 mb-8">
+                    <TextField autoComplete="off" label="Name" value={name} onChange={(value) => setName(value)}/>
+                    <TextField
+                        autoComplete="off"
+                        label="Total Monthly Sessions"
+                        value={monthlySessions}
+                        onChange={(value) => setMonthlySessions(value)}
+                    />
+                    <TextField
+                        autoComplete="off"
+                        label="Total Monthly Revenue"
+                        prefix="£"
+                        value={monthlyRevenue}
+                        onChange={(value) => setMonthlyRevenue(value)}
+                    />
+                    <TextField
+                        autoComplete="off"
+                        label="Total Monthly Orders"
+                        value={monthlyOrders}
+                        onChange={(value) => setMonthlyOrders(value)}
+                    />
+                    <TextField
+                        autoComplete="off"
+                        label="Total Monthly New Customers"
+                        value={monthlyNewCustomers}
+                        onChange={(value) => setMonthlyNewCustomers(value)}
+                    />
+                    <TextField
+                        autoComplete="off"
+                        label="Total Monthly Marketing Spend"
+                        prefix="£"
+                        value={monthlyMarketingSpend}
+                        onChange={(value) => setMonthlyMarketingSpend(value)}
+                    />
+                    <TextField
+                        autoComplete="off"
+                        label="COGS % (Cost of goods divided by sales price)"
+                        suffix="%"
+                        value={cogsPercent}
+                        onChange={(value) => setCogsPercent(value)}
+                    />
+                    <TextField
+                        autoComplete="off"
+                        label="Average Cost to Ship (Per Order)"
+                        prefix="£"
+                        value={averageCostToShip}
+                        onChange={(value) => setAverageCostToShip(value)}
+                    />
+                    <TextField
+                        autoComplete="off"
+                        label="Average Cost of Packaging (Per Order)"
+                        prefix="£"
+                        value={averageCostOfPackaging}
+                        onChange={(value) => setAverageCostOfPackaging(value)}
+                    />
+                    <TextField
+                        autoComplete="off"
+                        label="Average Merchant Fee % (Usually 3.5%)"
+                        suffix="%"
+                        value={averageMerchantFee}
+                        onChange={(value) => setAverageMerchantFee(value)}
+                    />
+                    <TextField
+                        autoComplete="off"
+                        label="Estimated Total Monthly Fixed Costs"
+                        prefix="£"
+                        value={estimatedTotalMonthlyFixedCosts}
+                        onChange={(value) => setEstimatedTotalMonthlyFixedCosts(value)}
+                    />
+                </div>
 
-            {/*    return response*/}
-            {/*      .map((result: CalculationResult): CalculationListItem => {*/}
-            {/*        return {*/}
-            {/*          id: result.id!,*/}
-            {/*          name: result.name,*/}
-            {/*          calculationType: result.type,*/}
-            {/*        };*/}
-            {/*      })*/}
-            {/*      .sort((a, b) => a.name.localeCompare(b.name));*/}
-            {/*  }}*/}
-            {/*  onSelect={handleLoadCalculation}*/}
-            {/*/>*/}
-                <Card title="Unit Economic Calculator">
-                    {/*<InlineGrid columns="1fr auto">*/}
-                    {/*  <div className="flex flex-row gap-2">*/}
-                    {/*    <Button variant="secondary" onClick={handleNew} accessibilityLabel="Create new calculation" icon={PlusIcon}>*/}
-                    {/*      New*/}
-                    {/*    </Button>*/}
-                    {/*    <Button*/}
-                    {/*      onClick={() => loadCalculationModalRef.current?.open()}*/}
-                    {/*      accessibilityLabel="Load saved calculation"*/}
-                    {/*      icon={FolderIcon}*/}
-                    {/*    >*/}
-                    {/*      Load*/}
-                    {/*    </Button>*/}
-                    {/*  </div>*/}
-                    {/*</InlineGrid>*/}
-                    <div className="flex flex-col gap-3 mb-8">
-                        <TextField autoComplete="off" label="Name" value={name} onChange={(value) => setName(value)}/>
-                        <TextField
-                            autoComplete="off"
-                            label="Total Monthly Sessions"
-                            value={monthlySessions}
-                            onChange={(value) => setMonthlySessions(value)}
-                        />
-                        <TextField
-                            autoComplete="off"
-                            label="Total Monthly Revenue"
-                            prefix="£"
-                            value={monthlyRevenue}
-                            onChange={(value) => setMonthlyRevenue(value)}
-                        />
-                        <TextField
-                            autoComplete="off"
-                            label="Total Monthly Orders"
-                            value={monthlyOrders}
-                            onChange={(value) => setMonthlyOrders(value)}
-                        />
-                        <TextField
-                            autoComplete="off"
-                            label="Total Monthly New Customers"
-                            value={monthlyNewCustomers}
-                            onChange={(value) => setMonthlyNewCustomers(value)}
-                        />
-                        <TextField
-                            autoComplete="off"
-                            label="Total Monthly Marketing Spend"
-                            prefix="£"
-                            value={monthlyMarketingSpend}
-                            onChange={(value) => setMonthlyMarketingSpend(value)}
-                        />
-                        <TextField
-                            autoComplete="off"
-                            label="COGS % (Cost of goods divided by sales price)"
-                            suffix="%"
-                            value={cogsPercent}
-                            onChange={(value) => setCogsPercent(value)}
-                        />
-                        <TextField
-                            autoComplete="off"
-                            label="Average Cost to Ship (Per Order)"
-                            prefix="£"
-                            value={averageCostToShip}
-                            onChange={(value) => setAverageCostToShip(value)}
-                        />
-                        <TextField
-                            autoComplete="off"
-                            label="Average Cost of Packaging (Per Order)"
-                            prefix="£"
-                            value={averageCostOfPackaging}
-                            onChange={(value) => setAverageCostOfPackaging(value)}
-                        />
-                        <TextField
-                            autoComplete="off"
-                            label="Average Merchant Fee % (Usually 3.5%)"
-                            suffix="%"
-                            value={averageMerchantFee}
-                            onChange={(value) => setAverageMerchantFee(value)}
-                        />
-                        <TextField
-                            autoComplete="off"
-                            label="Estimated Total Monthly Fixed Costs"
-                            prefix="£"
-                            value={estimatedTotalMonthlyFixedCosts}
-                            onChange={(value) => setEstimatedTotalMonthlyFixedCosts(value)}
-                        />
-                    </div>
-                    <hr className="my-6"/>
-                    <div className="border border-slate-200 rounded-md">
-                        <table className="w-full">
-                            <tbody>
-                            <CalculatorResultRow label="Conversion Rate (CR)" value={conversionRate}/>
-                            <CalculatorResultRow label="Average Order Value (AOV)" value={averageOrderValue}/>
-                            <CalculatorResultRow label="Customer Aquisition Cost (CAC)"
-                                                 value={customerAcquisitionCost}/>
-                            <CalculatorResultRow label="Total COGS Cost" value={totalCOGSCost}/>
-                            <CalculatorResultRow label="Per Order Profit" value={perOrderProfit}/>
-                            <CalculatorResultRow label="Orders Required to Break Even"
-                                                 value={ordersRequiredToBreakEven}/>
-                            </tbody>
-                        </table>
-                    </div>
-                    {/*<Box paddingBlockStart="400">*/}
-                    {/*    <InlineStack align="end">*/}
-                    {/*        <Button onClick={handleSave} accessibilityLabel="Save calculation" variant="primary">*/}
-                    {/*            Save Calculation*/}
-                    {/*        </Button>*/}
-                    {/*    </InlineStack>*/}
-                    {/*</Box>*/}
-                </Card>
+                <div className="border border-slate-200 rounded-lg mb-8">
+                    <table className="w-full">
+                        <tbody>
+                        <CalculatorResultRow label="Conversion Rate (CR)" value={conversionRate}/>
+                        <CalculatorResultRow label="Average Order Value (AOV)" value={averageOrderValue}/>
+                        <CalculatorResultRow label="Customer Aquisition Cost (CAC)"
+                                             value={customerAcquisitionCost}/>
+                        <CalculatorResultRow label="Total COGS Cost" value={totalCOGSCost}/>
+                        <CalculatorResultRow label="Per Order Profit" value={perOrderProfit}/>
+                        <CalculatorResultRow label="Orders Required to Break Even"
+                                             value={ordersRequiredToBreakEven}/>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div className="flex flex-row gap-2 justify-end">
+                    <Button
+                        variant="success"
+                        size="md"
+                        onClick={handleSave}
+                        accessibilityLabel="Save calculation"
+                        icon={<FaSave/>}
+                    >
+                        Save Calculation
+                    </Button>
+                </div>
+            </Card>
         </>
     );
 };

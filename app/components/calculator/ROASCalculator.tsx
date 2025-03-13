@@ -192,7 +192,7 @@ const ROASCalculator: React.FC<ROASCalculatorProps> = ({onNotify}) => {
             />
             <Card
                 title="ROAS Calculator"
-                className="w-[400px] mx-auto"
+                className="w-[450px] mx-auto"
                 actions={[
                     {
                         label: "New",
