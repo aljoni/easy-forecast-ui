@@ -186,6 +186,7 @@ const ROASCalculator: React.FC<ROASCalculatorProps> = ({onNotify}) => {
     return (
         <>
             <LoadCalculationModal
+                calculationType="ROAS"
                 onNotify={onNotify}
                 onClose={handleLoadCalculation}
                 isOpen={isModalOpen}

@@ -245,6 +245,7 @@ const UnitEconomicCalculator: React.FC<UnitEconomicCalculatorProps> = ({onNotify
     return (
         <>
             <LoadCalculationModal
+                calculationType="UNIT_ECONOMIC"
                 onNotify={onNotify}
                 onClose={handleLoadCalculation}
                 isOpen={isModalOpen}
