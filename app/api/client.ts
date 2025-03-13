@@ -5,6 +5,16 @@ const API_BASE_URL = "http://localhost:8094";
 type BodyValue = string | number | boolean | null;
 type Body = Record<string, BodyValue> | BodyValue;
 
+/**
+ * Performs a request to the backend API.
+ *
+ * @param method HTTP method
+ * @param path   API path
+ * @param query  Optional query parameters
+ * @param body   Optional request body
+ *
+ * @returns API response
+ */
 const performRequest = async <T>(method: string, path: string, query: Record<string, string> = {}, body: Body = {}): Promise<ApiResponse<T | null>> => {
     // -- Check local storage for state and shop
     const state = localStorage.getItem("state");
@@ -46,6 +56,14 @@ const performRequest = async <T>(method: string, path: string, query: Record<str
     }
 };
 
+/**
+ * Performs a GET request to the backend API.
+ *
+ * @param path   API path
+ * @param query  Optional query parameters
+ *
+ * @returns API response
+ */
 const performGet = async <T>({path, query = {}}: {
     path: string,
     query?: Record<string, string>
@@ -53,6 +71,15 @@ const performGet = async <T>({path, query = {}}: {
     return await performRequest<T>("GET", path, query);
 };
 
+/**
+ * Performs a POST request to the backend API.
+ *
+ * @param path   API path
+ * @param query  Optional query parameters
+ * @param body   Optional request body
+ *
+ * @returns API response
+ */
 const performPost = async <T>({path, query = {}, body = null}: {
     path: string,
     query?: Record<string, string>,
@@ -61,6 +88,15 @@ const performPost = async <T>({path, query = {}, body = null}: {
     return await performRequest<T>("POST", path, query, body);
 };
 
+/**
+ * Performs an UPDATE request to the backend API.
+ *
+ * @param path   API path
+ * @param query  Optional query parameters
+ * @param body   Optional request body
+ *
+ * @returns API response
+ */
 const performUpdate = async <T>({path, query = {}, body = null}: {
     path: string,
     query?: Record<string, string>,
@@ -69,6 +105,15 @@ const performUpdate = async <T>({path, query = {}, body = null}: {
     return await performRequest<T>("UPDATE", path, query, body);
 };
 
+/**
+ * Performs a PUT request to the backend API.
+ *
+ * @param path   API path
+ * @param query  Optional query parameters
+ * @param body   Optional request body
+ *
+ * @returns API response
+ */
 const performPut = async <T>({path, query = {}, body = null}: {
     path: string,
     query?: Record<string, string>,
@@ -77,6 +122,15 @@ const performPut = async <T>({path, query = {}, body = null}: {
     return await performRequest<T>("PUT", path, query, body);
 };
 
+/**
+ * Performs a DELETE request to the backend API.
+ *
+ * @param path   API path
+ * @param query  Optional query parameters
+ * @param body   Optional request body
+ *
+ * @returns API response
+ */
 const performDelete = async <T>({path, query = {}, body = null}: {
     path: string,
     query?: Record<string, string>

@@ -4,6 +4,13 @@ import {CalculationResult} from "~/types/api/request/CalculationResult";
 import {CalculationResultResponse} from "~/types/api/response/CalculationResultResponse";
 import {CalculationType} from "~/types/calculation/CalculationType";
 
+/**
+ * Saves a calculation result to the backend.
+ *
+ * @param calculationResult Calculation result to save
+ *
+ * @returns API response
+ */
 const saveCalculationResult = async (calculationResult: CalculationResult): Promise<ApiIdResponse | null> => {
     const response = await performPost<ApiIdResponse>({
         path: "/calculation",
@@ -17,6 +24,14 @@ const saveCalculationResult = async (calculationResult: CalculationResult): Prom
     return response.payload;
 };
 
+/**
+ * Updates an existing calculation result in the backend.
+ *
+ * @param calculationResultId Calculation result ID
+ * @param calculationResult   Calculation result to update
+ *
+ * @returns API response
+ */
 const updateCalculationResult = async (calculationResultId: string, calculationResult: CalculationResult): Promise<ApiIdResponse | null> => {
     const response = await performPut<ApiIdResponse>({
         path: `/calculation/${calculationResultId}`,
@@ -30,6 +45,13 @@ const updateCalculationResult = async (calculationResultId: string, calculationR
     return response.payload;
 };
 
+/**
+ * Gets a calculation result from the backend.
+ *
+ * @param calculationResultId Calculation result ID
+ *
+ * @returns Calculation result response
+ */
 const getCalculationResult = async (calculationResultId: string): Promise<CalculationResultResponse | null> => {
     const response = await performGet<CalculationResultResponse>({
         path: `/calculation/${calculationResultId}`,
@@ -42,6 +64,13 @@ const getCalculationResult = async (calculationResultId: string): Promise<Calcul
     return response.payload;
 };
 
+/**
+ * Gets all calculation results for a given calculation type from the backend.
+ *
+ * @param calculationType Calculation type
+ *
+ * @returns Calculation result responses
+ */
 const getCalculationResults = async (calculationType?: CalculationType): Promise<CalculationResultResponse[] | null> => {
     const response = await performGet<CalculationResultResponse[]>({
         path: "/calculation",
