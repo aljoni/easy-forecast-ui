@@ -30,7 +30,7 @@ const Card: React.FC<CardProps> = ({title, children, className, actions}) => {
                                     <Button
                                         key={action.label}
                                         variant={action.variant ?? "secondary"}
-                                        size="xs"
+                                        size="sm"
                                         onClick={action.onClick}
                                         icon={action.icon}
                                     >

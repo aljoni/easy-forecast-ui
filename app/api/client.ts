@@ -12,7 +12,8 @@ const performRequest = async <T>(method: string, path: string, query: Record<str
 
     if (state === null || shop === null) {
         // TODO: Request user re-open the app
-        throw new Error("State or shop not found");
+        console.error("[client] state or shop not found");
+        return {responseStatus: "ERROR", payload: null, errors: []};
     }
 
     // -- Build URL
@@ -30,7 +31,7 @@ const performRequest = async <T>(method: string, path: string, query: Record<str
             "Content-Type": "application/json",
             "Accept": "application/json",
         },
-        body: JSON.stringify(body),
+        body: method !== "GET" ? JSON.stringify(body) : undefined,
     });
     if (!response.ok) {
         throw new Error(response.statusText);

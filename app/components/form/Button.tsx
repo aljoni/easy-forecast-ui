@@ -22,13 +22,13 @@ const Button: React.FC<ButtonProps> = ({
     return (
         <button
             className={twMerge([
-                "flex items-center justify-center rounded-md border border-transparent px-4 py-2 font-medium text-nowrap focus:outline-none focus:ring-2 focus:ring-offset-2",
+                "flex items-center justify-center rounded-md border border-transparent px-4 font-medium text-nowrap focus:outline-none focus:ring-2 focus:ring-offset-2",
 
-                size === "xs" && "text-xs px-2 py-1",
-                size === "sm" && "text-xs",
-                size === "md" && "text-sm",
-                size === "lg" && "text-base px-5 py-2",
-                size === "xl" && "text-lg px-6 py-2",
+                size === "xs" && "text-xs h-6",
+                size === "sm" && "text-xs h-7",
+                size === "md" && "text-sm h-8",
+                size === "lg" && "text-base h-10",
+                size === "xl" && "text-lg h-12",
 
                 variant === "primary" && "bg-[#361D2E] hover:bg-[#4B2D3C] focus:ring-[#361D2E] text-white",
                 variant === "secondary" && "bg-stone-200 hover:bg-stone-300 focus:ring-stone-500 text-stone-900",

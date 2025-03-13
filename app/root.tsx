@@ -3,6 +3,7 @@ import type {LinksFunction} from "@remix-run/node";
 
 import "./tailwind.css";
 import React from "react";
+import {NotificationProvider} from "~/components/NotificationProvider";
 
 export const links: LinksFunction = () => [
     {rel: "preconnect", href: "https://fonts.googleapis.com"},
@@ -28,7 +29,9 @@ export function Layout({children}: { children: React.ReactNode }) {
             <Links/>
         </head>
         <body>
-        {children}
+        <NotificationProvider>
+            {children}
+        </NotificationProvider>
         <ScrollRestoration/>
         <Scripts/>
         </body>

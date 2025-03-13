@@ -7,6 +7,7 @@ import TextField from "~/components/form/TextField";
 import {useSearchParams} from "@remix-run/react";
 import {createSubscription, sendChargeIdRequest} from "~/api/subscription";
 import {useEffect} from "react";
+import {useNotifications} from "~/components/NotificationProvider";
 
 export const meta: MetaFunction = () => {
     return [
@@ -26,6 +27,9 @@ export default function Index() {
             setSearchParams({});
 
             createSubscription("TIER1").then((resp) => {
+                if (!resp) {
+                    return;
+                }
                 window.location.href = resp.confirmationUrl;
             });
         }
@@ -40,9 +44,49 @@ export default function Index() {
     const variants = ["primary", "secondary", "success", "warning", "danger"];
     const sizes = ["xs", "sm", "md", "lg", "xl"];
 
+    const notifications = useNotifications();
+
     return (
         <Page title="Easy Forecast">
             <div className="flex flex-col gap-4">
+                <Card title="Buttons" className="max-w-[1000px] mx-auto">
+                    <Button
+                        variant="primary"
+                        size="md"
+                        accessibilityLabel="Show notification"
+                        onClick={() => notifications.addNotification("Hello world!", "info")}
+                    >
+                        Show Info
+                    </Button>
+
+                    <Button
+                        variant="success"
+                        size="md"
+                        accessibilityLabel="Show notification"
+                        onClick={() => notifications.addNotification("Hello world!", "success")}
+                    >
+                        Show Success
+                    </Button>
+
+                    <Button
+                        variant="warning"
+                        size="md"
+                        accessibilityLabel="Show notification"
+                        onClick={() => notifications.addNotification("Hello world!", "warning")}
+                    >
+                        Show Warning
+                    </Button>
+
+                    <Button
+                        variant="danger"
+                        size="md"
+                        accessibilityLabel="Show notification"
+                        onClick={() => notifications.addNotification("Hello world!", "error")}
+                    >
+                        Show Error
+                    </Button>
+                </Card>
+
                 <Card title="Buttons" className="max-w-[1000px] mx-auto">
                     {sizes.map((size) => (
                         <div key={`${size}-buttons`} className="flex flex-row gap-2 pt-2">

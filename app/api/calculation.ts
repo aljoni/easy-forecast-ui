@@ -11,7 +11,7 @@ const saveCalculationResult = async (calculationResult: CalculationResult): Prom
     });
 
     if (response.responseStatus !== "OK") {
-        throw new Error("Failed to save calculation result");
+        return null;
     }
 
     return response.payload;
@@ -24,7 +24,7 @@ const updateCalculationResult = async (calculationResultId: string, calculationR
     });
 
     if (response.responseStatus !== "OK") {
-        throw new Error("Failed to update calculation result");
+        return null;
     }
 
     return response.payload;
@@ -36,7 +36,7 @@ const getCalculationResult = async (calculationResultId: string): Promise<Calcul
     });
 
     if (response.responseStatus !== "OK") {
-        throw new Error("Failed to get calculation result");
+        return null;
     }
 
     return response.payload;
@@ -49,7 +49,7 @@ const getCalculationResults = async (calculationType?: CalculationType): Promise
     });
 
     if (response.responseStatus !== "OK") {
-        throw new Error("Failed to get calculation results");
+        return null;
     }
 
     return response.payload;

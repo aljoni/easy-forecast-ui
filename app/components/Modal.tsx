@@ -19,8 +19,8 @@ export const Modal: React.FC<ModalProps> = ({
         <div
             className={twMerge(["fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/75", isOpen ? "" : "hidden"])}
         >
-            <div className="relative w-full max-w-md p-4 bg-white rounded-xl shadow-xl">
-                <div className="flex flex-row justify-between mb-4">
+            <div className="relative w-full max-w-md p-6 bg-white rounded-xl shadow-xl">
+                <div className="flex flex-row justify-between mb-6">
                     <h2 className="text-lg font-light text-stone-700">
                         {title}
                     </h2>

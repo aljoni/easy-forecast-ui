@@ -1,22 +1,21 @@
 import React, {useCallback, useEffect, useState} from "react";
 import CalculatorResultRow from "~/components/calculator/CalculatorResultRow";
-// import {
-//     getCalculationResult,
-//     getCalculationResultsByType,
-//     postCalculationResult,
-//     putCalculationResult,
-// } from "~/javaApi";
 import Card from "~/components/Card";
 import TextField from "~/components/form/TextField";
-import {Modal} from "~/components/Modal";
 import Button from "~/components/form/Button";
-import Dropdown from "~/components/form/Dropdown";
 import {FaFolderOpen, FaPlus} from "react-icons/fa6";
 import {FaSave} from "react-icons/fa";
 import {CalculationResult} from "~/types/api/request/CalculationResult";
 import {saveCalculationResult, updateCalculationResult} from "~/api/calculation";
+import {NotificationType} from "~/components/NotificationProvider";
+import LoadCalculationModal from "~/components/calculator/LoadCalculationModal";
+import {ROASCalculationData} from "~/types/calculation/ROASCalculationData";
 
-const ROASCalculator: React.FC = () => {
+type ROASCalculatorProps = {
+    onNotify?: (message: string, type: NotificationType) => void;
+};
+
+const ROASCalculator: React.FC<ROASCalculatorProps> = ({onNotify}) => {
     // -- User provided values
     const [id, setId] = useState<string | null>(null);
     const [name, setName] = useState<string>(`Result for ${new Date().toLocaleDateString()}`);
@@ -35,7 +34,7 @@ const ROASCalculator: React.FC = () => {
     const [netPerOrder, setNetPerOrder] = useState<string>("£-.--");
     const [twelveMonthLTV, setTwelveMonthLTV] = useState<string>("£-.--");
 
-    // -- Modal state
+    // -- Modal
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     const handleOpenModal = useCallback(() => {
@@ -131,24 +130,24 @@ const ROASCalculator: React.FC = () => {
         if (id === null) {
             saveCalculationResult(model).then((response) => {
                 if (response === null) {
-                    console.error("Error saving calculation");
+                    onNotify?.("Error saving calculation", "error");
                     return;
                 }
 
                 setId(response?.id ?? null);
-                console.info("Calculation saved");
+                onNotify?.("Calculation saved", "success");
             });
         } else {
             updateCalculationResult(id, model).then((response) => {
                 if (response === null) {
-                    console.error("Error updating calculation");
+                    onNotify?.("Error updating calculation", "error");
                     return;
                 }
 
-                console.info("Calculation updated");
+                onNotify?.("Calculation updated", "success");
             });
         }
-    }, [grossRevenue, cogs, warehouseCost, packagingCost, shippingCost, merchantFee, currentCustomerAcquisitionCost, frequencyOfPurchase, id, name]);
+    }, [onNotify, grossRevenue, cogs, warehouseCost, packagingCost, shippingCost, merchantFee, currentCustomerAcquisitionCost, frequencyOfPurchase, id, name]);
 
     const handleNew = useCallback(() => {
         setId(null);
@@ -163,37 +162,34 @@ const ROASCalculator: React.FC = () => {
         setFrequencyOfPurchase("");
     }, []);
 
-    // const handleLoadCalculation = async (resultId: string) => {
-    //     if (!resultId) return;
-    //
-    //     const response = await getCalculationResult(shopify.config.shop!, resultId);
-    //     if (!response) {
-    //         shopify.toast.show("Unable to load calculation", {isError: true});
-    //         return;
-    //     }
-    //
-    //     const data = response.data as ROASCalculationData;
-    //
-    //     setId(response.id!);
-    //     setName(response.name);
-    //     setGrossRevenue(data.grossRevenue);
-    //     setCogs(data.cogs);
-    //     setWarehouseCost(data.warehouseCost);
-    //     setPackagingCost(data.packagingCost);
-    //     setShippingCost(data.shippingCost);
-    //     setMerchantFee(data.merchantFee);
-    //     setCurrentCustomerAcquisitionCost(data.currentCustomerAcquisitionCost);
-    //     setFrequencyOfPurchase(data.frequencyOfPurchase);
-    //
-    //     shopify.toast.show("Calculation loaded");
-    // };
+    const handleLoadCalculation = async (calculation: CalculationResult | null) => {
+        handleCloseModal();
+
+        if (!calculation) return;
+
+        const data = JSON.parse(calculation.userData) as ROASCalculationData;
+
+        setId(calculation.id!);
+        setName(calculation.name);
+        setGrossRevenue(data.grossRevenue);
+        setCogs(data.cogs);
+        setWarehouseCost(data.warehouseCost);
+        setPackagingCost(data.packagingCost);
+        setShippingCost(data.shippingCost);
+        setMerchantFee(data.merchantFee);
+        setCurrentCustomerAcquisitionCost(data.currentCustomerAcquisitionCost);
+        setFrequencyOfPurchase(data.frequencyOfPurchase);
+
+        onNotify?.("Calculation loaded", "success");
+    };
 
     return (
         <>
-            <Modal title="Load Calculation" isOpen={isModalOpen} onClose={handleCloseModal}>
-                <Dropdown options={[]} value="" onChange={() => {
-                }}/>
-            </Modal>
+            <LoadCalculationModal
+                onNotify={onNotify}
+                onClose={handleLoadCalculation}
+                isOpen={isModalOpen}
+            />
             <Card
                 title="ROAS Calculator"
                 className="w-[400px] mx-auto"
@@ -210,7 +206,7 @@ const ROASCalculator: React.FC = () => {
                     },
                 ]}
             >
-                <div className="flex flex-col gap-4 mb-8">
+                <div className="flex flex-col gap-2 mb-8">
                     <TextField
                         autoComplete="off"
                         label="Name"
@@ -305,7 +301,7 @@ const ROASCalculator: React.FC = () => {
                 <div className="flex flex-row gap-2 justify-end">
                     <Button
                         variant="success"
-                        size="sm"
+                        size="md"
                         onClick={handleSave}
                         accessibilityLabel="Save calculation"
                         icon={<FaSave/>}
@@ -313,14 +309,6 @@ const ROASCalculator: React.FC = () => {
                         Save Calculation
                     </Button>
                 </div>
-
-                {/*<Box paddingBlockStart="400">*/}
-                {/*    <InlineStack align="end">*/}
-                {/*        <Button onClick={handleSave} accessibilityLabel="Save calculation" variant="primary">*/}
-                {/*            Save Calculation*/}
-                {/*        </Button>*/}
-                {/*    </InlineStack>*/}
-                {/*</Box>*/}
             </Card>
         </>
     );
