@@ -1,5 +1,6 @@
-import {SideMenuItem, SideMenuItemInfo} from "~/components/layout/navigation/SideMenuItem";
 import React from "react";
+
+import {SideMenuItem, SideMenuItemInfo} from "~/components";
 
 type SideMenuProps = {
     items: SideMenuItemInfo[];
@@ -17,5 +18,4 @@ const SideMenu: React.FC<SideMenuProps> = ({items, currentPath}) => {
     );
 }
 
-export default SideMenu;
-export type {SideMenuProps};
+export {SideMenu};

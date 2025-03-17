@@ -1,6 +1,7 @@
 import React from "react";
-import Sidebar from "~/components/layout/Sidebar";
 import {useLocation} from "react-router";
+
+import {Sidebar} from "~/components";
 
 type PageProps = {
     title?: string;
@@ -25,5 +26,4 @@ const Page: React.FC<PageProps> = ({children, title}) => {
     );
 };
 
-export default Page;
-export type {PageProps};
+export {Page};

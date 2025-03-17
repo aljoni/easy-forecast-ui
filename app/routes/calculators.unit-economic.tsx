@@ -1,8 +1,7 @@
-import Page from "~/components/layout/Page";
-import {MetaFunction} from "@remix-run/node";
 import React from "react";
-import {NotificationType, useNotifications} from "~/components/NotificationProvider";
-import UnitEconomicCalculator from "~/components/calculator/UnitEconomicCalculator";
+import {MetaFunction} from "@remix-run/node";
+
+import {Page, UnitEconomicCalculator, NotificationType, useNotifications} from "~/components";
 
 export const meta: MetaFunction = () => {
     return [{title: "Unit Economic Calculator"}];

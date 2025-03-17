@@ -12,4 +12,4 @@ type UnitEconomicCalculationData = {
     estimatedTotalMonthlyFixedCosts: string,
 };
 
-export default UnitEconomicCalculationData;
+export type {UnitEconomicCalculationData};

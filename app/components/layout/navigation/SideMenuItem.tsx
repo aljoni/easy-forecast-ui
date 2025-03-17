@@ -1,7 +1,7 @@
-import {useNavigate} from "@remix-run/react";
 import React, {useCallback, useEffect, useState} from "react";
-import {twMerge} from "tailwind-merge";
 import {FaChevronRight} from "react-icons/fa6";
+import {twMerge} from "tailwind-merge";
+import {useNavigate} from "@remix-run/react";
 
 type MenuTileProps = {
     label: string;

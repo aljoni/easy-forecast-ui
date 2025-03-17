@@ -1,5 +1,5 @@
 import React from "react";
-import SideMenu from "~/components/layout/navigation/SideMenu";
+import {SideMenu} from "~/components";
 
 type SidebarProps = {
     currentPath: string;
@@ -33,5 +33,4 @@ const Sidebar: React.FC<SidebarProps> = ({currentPath}) => {
     )
 };
 
-export default Sidebar;
-export type {SidebarProps};
+export {Sidebar};

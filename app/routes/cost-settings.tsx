@@ -1,7 +1,7 @@
-import Page from "~/components/layout/Page";
-import {MetaFunction} from "@remix-run/node";
 import React from "react";
-import Card from "~/components/Card";
+import {MetaFunction} from "@remix-run/node";
+
+import {Page} from "~/components";
 
 export const meta: MetaFunction = () => {
     return [{title: "Cost Settings"}];
@@ -10,7 +10,6 @@ export const meta: MetaFunction = () => {
 const Calculators: React.FC = () => {
     return (
         <Page title="Cost Settings">
-            <Card title="Cost Settings"></Card>
         </Page>
     );
 };

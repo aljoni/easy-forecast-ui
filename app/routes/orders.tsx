@@ -1,7 +1,7 @@
-import Page from "~/components/layout/Page";
-import {MetaFunction} from "@remix-run/node";
 import React from "react";
-import Card from "~/components/Card";
+import {MetaFunction} from "@remix-run/node";
+
+import {Card, Page} from "~/components";
 
 export const meta: MetaFunction = () => {
     return [{title: "Orders"}];

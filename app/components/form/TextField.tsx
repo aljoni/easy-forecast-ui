@@ -1,33 +1,44 @@
 import React, {useCallback, useId, useMemo, useState} from "react";
 import {twMerge} from "tailwind-merge";
-import {ComponentFontType, ComponentSize, ComponentVariant} from "~/types/ComponentInfo";
+
+import {ComponentFontStyle, ComponentSize, ComponentVariant} from "~/types";
 
 type TextFieldProps = {
     label?: string;
     value: string;
     disabled?: boolean;
+    type?: string;
+
     autoComplete?: "" | "off" | "on";
-    onChange: (value: string) => void;
+    pattern?: string;
+
+    onChange?: (value: string) => void;
+    onFocus?: () => void;
+
     prefix?: string;
     suffix?: string;
+
     variant?: ComponentVariant;
     size?: ComponentSize;
-    fontType?: ComponentFontType;
-    pattern?: string;
+    fontStyle?: ComponentFontStyle;
+
+
     className?: string;
 }
 
 const TextField: React.FC<TextFieldProps> = ({
                                                  label,
                                                  value,
+                                                 type,
                                                  disabled = false,
                                                  autoComplete = "off",
                                                  onChange,
+                                                 onFocus,
                                                  prefix,
                                                  suffix,
                                                  variant = "secondary",
                                                  size = "md",
-                                                 fontType = "sans",
+                                                 fontStyle = "sans",
                                                  pattern,
                                                  className,
                                              }) => {
@@ -46,7 +57,7 @@ const TextField: React.FC<TextFieldProps> = ({
 
     const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         validateInput(e.target.value);
-        onChange(e.target.value);
+        onChange?.(e.target.value);
     }, [onChange]);
 
     return (
@@ -62,9 +73,9 @@ const TextField: React.FC<TextFieldProps> = ({
                     size === "lg" && "text-base h-10 px-1",
                     size === "xl" && "text-lg h-12 px-2 border-2",
 
-                    fontType === "sans" && "font-sans",
-                    fontType === "serif" && "font-serif",
-                    fontType === "mono" && "font-mono",
+                    fontStyle === "sans" && "font-sans",
+                    fontStyle === "serif" && "font-serif",
+                    fontStyle === "mono" && "font-mono",
 
                     currentVariant === "primary" && "focus-within:ring-[#361D2E] border-[#361D2E]",
                     currentVariant === "secondary" && "focus-within:ring-stone-500 border-stone-200",
@@ -79,13 +90,14 @@ const TextField: React.FC<TextFieldProps> = ({
             >
                 {prefix && <span className="text-stone-700 pl-2">{prefix}</span>}
                 <input
-                    type="text"
+                    type={type}
                     id={inputId}
                     className="border-none bg-inherit px-2 text-inherit text-stone-700 h-full outline-none flex-1 min-w-0"
                     disabled={disabled}
                     autoComplete={autoComplete}
                     value={value}
                     onChange={handleChange}
+                    onFocus={onFocus}
                 />
                 {suffix && <span className="text-stone-500 pr-2">{suffix}</span>}
             </div>
@@ -93,5 +105,4 @@ const TextField: React.FC<TextFieldProps> = ({
     );
 };
 
-export default TextField;
-export type {TextFieldProps};
+export {TextField};

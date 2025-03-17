@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {CalculationResult} from "~/types/api/request/CalculationResult";
-import {NotificationType} from "~/components/NotificationProvider";
-import {getCalculationResults} from "~/api/calculation";
-import {Modal} from "~/components/Modal";
-import Button from "~/components/form/Button";
-import {CalculationType} from "~/types/calculation/CalculationType";
+
+import {getCalculationResults} from "~/api";
+import {Modal, Button, NotificationType} from "~/components";
+import {CalculationResult, CalculationType} from "~/types";
 
 type LoadCalculationModalProps = {
     calculationType?: CalculationType;
@@ -54,5 +52,4 @@ const LoadCalculationModal: React.FC<LoadCalculationModalProps> = ({calculationT
     );
 };
 
-export default LoadCalculationModal;
-export type {LoadCalculationModalProps};
+export {LoadCalculationModal};

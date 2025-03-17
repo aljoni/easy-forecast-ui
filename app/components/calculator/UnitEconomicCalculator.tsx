@@ -1,15 +1,10 @@
 import React, {useCallback, useEffect, useState} from "react";
-import CalculatorResultRow from "~/components/calculator/CalculatorResultRow";
-import Card from "~/components/Card";
-import TextField from "~/components/form/TextField";
-import {NotificationType} from "~/components/NotificationProvider";
-import {saveCalculationResult} from "~/api/calculation";
-import {CalculationResult} from "~/types/api/request/CalculationResult";
-import LoadCalculationModal from "~/components/calculator/LoadCalculationModal";
-import UnitEconomicCalculationData from "~/types/calculation/UnitEconomicCalculationData";
 import {FaFolderOpen, FaPlus} from "react-icons/fa6";
-import Button from "~/components/form/Button";
 import {FaSave} from "react-icons/fa";
+
+import {saveCalculationResult} from "~/api";
+import {Button, Card, TextField, CalculatorResultRow, LoadCalculationModal, NotificationType} from "~/components";
+import {CalculationResult, UnitEconomicCalculationData} from "~/types";
 
 type UnitEconomicCalculatorProps = {
     onNotify?: (message: string, type: NotificationType) => void;
@@ -368,4 +363,4 @@ const UnitEconomicCalculator: React.FC<UnitEconomicCalculatorProps> = ({onNotify
     );
 };
 
-export default UnitEconomicCalculator;
+export {UnitEconomicCalculator};

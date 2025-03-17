@@ -1,8 +1,13 @@
-import Page from "~/components/layout/Page";
-import {MetaFunction} from "@remix-run/node";
 import React from "react";
-import ROASCalculator from "~/components/calculator/ROASCalculator";
-import {NotificationType, useNotifications} from "~/components/NotificationProvider";
+import {MetaFunction} from "@remix-run/node";
+
+import {
+    Page,
+    ROASCalculator,
+    NotificationType,
+
+    useNotifications
+} from "~/components";
 
 export const meta: MetaFunction = () => {
     return [{title: "ROAS Calculator"}];

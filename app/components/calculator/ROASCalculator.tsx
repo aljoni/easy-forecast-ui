@@ -1,15 +1,10 @@
 import React, {useCallback, useEffect, useState} from "react";
-import CalculatorResultRow from "~/components/calculator/CalculatorResultRow";
-import Card from "~/components/Card";
-import TextField from "~/components/form/TextField";
-import Button from "~/components/form/Button";
 import {FaFolderOpen, FaPlus} from "react-icons/fa6";
 import {FaSave} from "react-icons/fa";
-import {CalculationResult} from "~/types/api/request/CalculationResult";
-import {saveCalculationResult, updateCalculationResult} from "~/api/calculation";
-import {NotificationType} from "~/components/NotificationProvider";
-import LoadCalculationModal from "~/components/calculator/LoadCalculationModal";
-import {ROASCalculationData} from "~/types/calculation/ROASCalculationData";
+
+import {saveCalculationResult, updateCalculationResult} from "~/api";
+import {Button, Card, CalculatorResultRow, TextField, LoadCalculationModal, NotificationType} from "~/components";
+import {CalculationResult, ROASCalculationData} from "~/types";
 
 type ROASCalculatorProps = {
     onNotify?: (message: string, type: NotificationType) => void;
@@ -218,7 +213,7 @@ const ROASCalculator: React.FC<ROASCalculatorProps> = ({onNotify}) => {
                         autoComplete="off"
                         label="Gross Revenue After Tax"
                         prefix="£"
-                        fontType="mono"
+                        fontStyle="mono"
                         value={grossRevenue}
                         pattern="^[0-9]+(\.[0-9]{1,2})?$"
                         onChange={(value) => setGrossRevenue(value)}
@@ -228,7 +223,7 @@ const ROASCalculator: React.FC<ROASCalculatorProps> = ({onNotify}) => {
                         label="COGS"
                         prefix="£"
                         value={cogs}
-                        fontType="mono"
+                        fontStyle="mono"
                         pattern="^[0-9]+(\.[0-9]{1,2})?$"
                         onChange={(value) => setCogs(value)}
                     />
@@ -237,7 +232,7 @@ const ROASCalculator: React.FC<ROASCalculatorProps> = ({onNotify}) => {
                         label="Warehouse Cost"
                         prefix="£"
                         value={warehouseCost}
-                        fontType="mono"
+                        fontStyle="mono"
                         pattern="^[0-9]+(\.[0-9]{1,2})?$"
                         onChange={(value) => setWarehouseCost(value)}
                     />
@@ -246,7 +241,7 @@ const ROASCalculator: React.FC<ROASCalculatorProps> = ({onNotify}) => {
                         label="Packaging Cost"
                         prefix="£"
                         value={packagingCost}
-                        fontType="mono"
+                        fontStyle="mono"
                         pattern="^[0-9]+(\.[0-9]{1,2})?$"
                         onChange={(value) => setPackagingCost(value)}
                     />
@@ -255,7 +250,7 @@ const ROASCalculator: React.FC<ROASCalculatorProps> = ({onNotify}) => {
                         label="Shipping Cost"
                         prefix="£"
                         value={shippingCost}
-                        fontType="mono"
+                        fontStyle="mono"
                         pattern="^[0-9]+(\.[0-9]{1,2})?$"
                         onChange={(value) => setShippingCost(value)}
                     />
@@ -264,7 +259,7 @@ const ROASCalculator: React.FC<ROASCalculatorProps> = ({onNotify}) => {
                         label="Merchant Fee"
                         prefix="£"
                         value={merchantFee}
-                        fontType="mono"
+                        fontStyle="mono"
                         pattern="^[0-9]+(\.[0-9]{1,2})?$"
                         onChange={(value) => setMerchantFee(value)}
                     />
@@ -273,7 +268,7 @@ const ROASCalculator: React.FC<ROASCalculatorProps> = ({onNotify}) => {
                         label="Current Customer Acquisition Cost"
                         prefix="£"
                         value={currentCustomerAcquisitionCost}
-                        fontType="mono"
+                        fontStyle="mono"
                         pattern="^[0-9]+(\.[0-9]{1,2})?$"
                         onChange={(value) => setCurrentCustomerAcquisitionCost(value)}
                     />
@@ -281,7 +276,7 @@ const ROASCalculator: React.FC<ROASCalculatorProps> = ({onNotify}) => {
                         autoComplete="off"
                         label="Frequency of Purchase (per year)"
                         value={frequencyOfPurchase}
-                        fontType="mono"
+                        fontStyle="mono"
                         suffix="%"
                         pattern="^[0-9]+(\.[0-9]{1,2})?$"
                         onChange={(value) => setFrequencyOfPurchase(value)}
@@ -315,4 +310,4 @@ const ROASCalculator: React.FC<ROASCalculatorProps> = ({onNotify}) => {
     );
 };
 
-export default ROASCalculator;
+export {ROASCalculator}

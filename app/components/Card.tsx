@@ -1,7 +1,8 @@
 import React from "react";
 import {twMerge} from "tailwind-merge";
-import Button from "~/components/form/Button";
-import {ComponentVariant} from "~/types/ComponentInfo";
+
+import {Button} from "~/components";
+import {ComponentVariant} from "~/types";
 
 type CardProps = {
     title?: string;
@@ -51,5 +52,4 @@ const Card: React.FC<CardProps> = ({title, children, className, actions}) => {
     );
 };
 
-export default Card;
-export type {CardProps};
+export {Card};

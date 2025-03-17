@@ -1,13 +1,10 @@
 import type {MetaFunction} from "@remix-run/node";
-import Page from "~/components/layout/Page";
-import Card from "~/components/Card";
-import Button from "~/components/form/Button";
 import {ComponentSize, ComponentVariant} from "~/types/ComponentInfo";
-import TextField from "~/components/form/TextField";
 import {useSearchParams} from "@remix-run/react";
 import {createSubscription, sendChargeIdRequest} from "~/api/subscription";
 import {useEffect} from "react";
 import {useNotifications} from "~/components/NotificationProvider";
+import {Page, Card, Button, Dropdown, TextField} from "~/components";
 
 export const meta: MetaFunction = () => {
     return [
@@ -49,42 +46,67 @@ export default function Index() {
     return (
         <Page title="Easy Forecast">
             <div className="flex flex-col gap-4">
-                <Card title="Buttons" className="max-w-[1000px] mx-auto">
-                    <Button
-                        variant="primary"
-                        size="md"
-                        accessibilityLabel="Show notification"
-                        onClick={() => notifications.addNotification("Hello world!", "info")}
-                    >
-                        Show Info
-                    </Button>
+                <Card title="Notifications" className="max-w-[1000px] mx-auto">
+                    <div className="flex flex-row gap-2">
+                        <Button
+                            variant="primary"
+                            size="md"
+                            accessibilityLabel="Show notification"
+                            onClick={() => notifications.addNotification("Hello world!", "info")}
+                        >
+                            Show Info
+                        </Button>
 
-                    <Button
-                        variant="success"
-                        size="md"
-                        accessibilityLabel="Show notification"
-                        onClick={() => notifications.addNotification("Hello world!", "success")}
-                    >
-                        Show Success
-                    </Button>
+                        <Button
+                            variant="success"
+                            size="md"
+                            accessibilityLabel="Show notification"
+                            onClick={() => notifications.addNotification("Hello world!", "success")}
+                        >
+                            Show Success
+                        </Button>
 
-                    <Button
-                        variant="warning"
-                        size="md"
-                        accessibilityLabel="Show notification"
-                        onClick={() => notifications.addNotification("Hello world!", "warning")}
-                    >
-                        Show Warning
-                    </Button>
+                        <Button
+                            variant="warning"
+                            size="md"
+                            accessibilityLabel="Show notification"
+                            onClick={() => notifications.addNotification("Hello world!", "warning")}
+                        >
+                            Show Warning
+                        </Button>
 
-                    <Button
-                        variant="danger"
-                        size="md"
-                        accessibilityLabel="Show notification"
-                        onClick={() => notifications.addNotification("Hello world!", "error")}
-                    >
-                        Show Error
-                    </Button>
+                        <Button
+                            variant="danger"
+                            size="md"
+                            accessibilityLabel="Show notification"
+                            onClick={() => notifications.addNotification("Hello world!", "error")}
+                        >
+                            Show Error
+                        </Button>
+                    </div>
+                </Card>
+
+                <Card title="Dropdowns" className="max-w-[1000px] mx-auto">
+                    {sizes.map((size) => (
+                        <div key={`${size}-dropdowns`} className="flex flex-col gap-2 mb-8">
+                            {variants.map((variant) => (
+                                <div key={`${size}-${variant}`} className="flex flex-row gap-2">
+                                    <Dropdown
+                                        options={[
+                                            {label: "Option 1", value: "option-1"},
+                                            {label: "Option 2", value: "option-2"},
+                                            {label: "Option 3", value: "option-3"},
+                                        ]}
+                                        selected="option-1"
+                                        onChange={() => {
+                                        }}
+                                        variant={variant as ComponentVariant}
+                                        size={size as ComponentSize}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    ))}
                 </Card>
 
                 <Card title="Buttons" className="max-w-[1000px] mx-auto">

@@ -1,6 +1,7 @@
 import React from "react";
 import {twMerge} from "tailwind-merge";
-import {ComponentSize, ComponentVariant} from "~/types/ComponentInfo";
+
+import {ComponentSize, ComponentVariant} from "~/types";
 
 type ButtonProps = {
     children: React.ReactNode;
@@ -45,5 +46,4 @@ const Button: React.FC<ButtonProps> = ({
     );
 };
 
-export default Button;
-export type {ButtonProps};
+export {Button};
