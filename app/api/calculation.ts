@@ -1,6 +1,6 @@
 import {ApiIdResponse} from "~/types/api/response/ApiIdResponse";
 import {performGet, performPost, performPut} from "~/api/client";
-import {CalculationResult} from "~/types/api/request/CalculationResult";
+import {CalculationResult} from "~/types/calculation/CalculationResult";
 import {CalculationResultResponse} from "~/types/api/response/CalculationResultResponse";
 import {CalculationType} from "~/types/calculation/CalculationType";
 

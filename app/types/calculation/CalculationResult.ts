@@ -1,4 +1,4 @@
-import {CalculationType} from "~/types/calculation/CalculationType";
+import {CalculationType} from "~/types";
 
 type CalculationResult = {
     id?: string;
