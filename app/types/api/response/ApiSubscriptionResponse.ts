@@ -3,4 +3,4 @@ type ApiSubscriptionResponse = {
     status: string;
 };
 
-export type {ApiSubscriptionResponse};
+export type { ApiSubscriptionResponse };

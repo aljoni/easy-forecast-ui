@@ -1,16 +1,16 @@
-import React, {useCallback, useEffect, useState} from "react";
-import {FaFolderOpen, FaPlus} from "react-icons/fa6";
-import {FaSave} from "react-icons/fa";
+import React, { useCallback, useEffect, useState } from "react";
+import { FaFolderOpen, FaPlus } from "react-icons/fa6";
+import { FaSave } from "react-icons/fa";
 
-import {saveCalculationResult} from "~/api";
-import {Button, Card, TextField, CalculatorResultRow, LoadCalculationModal, NotificationType} from "~/components";
-import {CalculationResult, UnitEconomicCalculationData} from "~/types";
+import { saveCalculationResult } from "~/api";
+import { Button, Card, TextField, CalculatorResultRow, LoadCalculationModal, NotificationType } from "~/components";
+import { CalculationResult, UnitEconomicCalculationData } from "~/types";
 
 type UnitEconomicCalculatorProps = {
     onNotify?: (message: string, type: NotificationType) => void;
 };
 
-const UnitEconomicCalculator: React.FC<UnitEconomicCalculatorProps> = ({onNotify}) => {
+const UnitEconomicCalculator: React.FC<UnitEconomicCalculatorProps> = ({ onNotify }) => {
     // -- User provided values
     const [id, setId] = useState<string | null>(null);
     const [name, setName] = useState<string>(`Result for ${new Date().toLocaleDateString()}`);
@@ -252,17 +252,17 @@ const UnitEconomicCalculator: React.FC<UnitEconomicCalculatorProps> = ({onNotify
                     {
                         label: "New",
                         onClick: handleNew,
-                        icon: <FaPlus/>,
+                        icon: <FaPlus />,
                     },
                     {
                         label: "Load",
                         onClick: handleOpenModal,
-                        icon: <FaFolderOpen/>,
+                        icon: <FaFolderOpen />,
                     },
                 ]}
             >
                 <div className="flex flex-col gap-2 mb-8">
-                    <TextField autoComplete="off" label="Name" value={name} onChange={(value) => setName(value)}/>
+                    <TextField autoComplete="off" label="Name" value={name} onChange={(value) => setName(value)} />
                     <TextField
                         autoComplete="off"
                         label="Total Monthly Sessions"
@@ -335,14 +335,14 @@ const UnitEconomicCalculator: React.FC<UnitEconomicCalculatorProps> = ({onNotify
                 <div className="border border-slate-200 rounded-lg mb-8">
                     <table className="w-full">
                         <tbody>
-                        <CalculatorResultRow label="Conversion Rate (CR)" value={conversionRate}/>
-                        <CalculatorResultRow label="Average Order Value (AOV)" value={averageOrderValue}/>
-                        <CalculatorResultRow label="Customer Aquisition Cost (CAC)"
-                                             value={customerAcquisitionCost}/>
-                        <CalculatorResultRow label="Total COGS Cost" value={totalCOGSCost}/>
-                        <CalculatorResultRow label="Per Order Profit" value={perOrderProfit}/>
-                        <CalculatorResultRow label="Orders Required to Break Even"
-                                             value={ordersRequiredToBreakEven}/>
+                            <CalculatorResultRow label="Conversion Rate (CR)" value={conversionRate} />
+                            <CalculatorResultRow label="Average Order Value (AOV)" value={averageOrderValue} />
+                            <CalculatorResultRow label="Customer Aquisition Cost (CAC)"
+                                value={customerAcquisitionCost} />
+                            <CalculatorResultRow label="Total COGS Cost" value={totalCOGSCost} />
+                            <CalculatorResultRow label="Per Order Profit" value={perOrderProfit} />
+                            <CalculatorResultRow label="Orders Required to Break Even"
+                                value={ordersRequiredToBreakEven} />
                         </tbody>
                     </table>
                 </div>
@@ -353,7 +353,7 @@ const UnitEconomicCalculator: React.FC<UnitEconomicCalculatorProps> = ({onNotify
                         size="md"
                         onClick={handleSave}
                         accessibilityLabel="Save calculation"
-                        icon={<FaSave/>}
+                        icon={<FaSave />}
                     >
                         Save Calculation
                     </Button>
@@ -363,4 +363,4 @@ const UnitEconomicCalculator: React.FC<UnitEconomicCalculatorProps> = ({onNotify
     );
 };
 
-export {UnitEconomicCalculator};
+export { UnitEconomicCalculator };

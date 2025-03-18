@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
-import {getCalculationResults} from "~/api";
-import {Modal, Button, NotificationType} from "~/components";
-import {CalculationResult, CalculationType} from "~/types";
+import { getCalculationResults } from "~/api";
+import { Modal, Button, NotificationType } from "~/components";
+import { CalculationResult, CalculationType } from "~/types";
 
 type LoadCalculationModalProps = {
     calculationType?: CalculationType;
@@ -11,7 +11,7 @@ type LoadCalculationModalProps = {
     isOpen: boolean;
 }
 
-const LoadCalculationModal: React.FC<LoadCalculationModalProps> = ({calculationType, onNotify, onClose, isOpen}) => {
+const LoadCalculationModal: React.FC<LoadCalculationModalProps> = ({ calculationType, onNotify, onClose, isOpen }) => {
     const [calculationResults, setCalculationResults] = useState<CalculationResult[]>([]);
 
     useEffect(() => {
@@ -32,7 +32,7 @@ const LoadCalculationModal: React.FC<LoadCalculationModalProps> = ({calculationT
             <div className="flex flex-col gap-2">
                 {calculationResults.map((calculation) => (
                     <div key={calculation.id}
-                         className="flex flex-row items-center justify-between border-b border-stone-200 last:border-b-0 pb-2">
+                        className="flex flex-row items-center justify-between border-b border-stone-200 last:border-b-0 pb-2">
                         <div className="flex flex-col gap-1">
                             <div className="text-sm font-medium text-stone-800">{calculation.name}</div>
                             <div className="text-xs text-stone-500">{calculation.calculationType}</div>
@@ -52,4 +52,4 @@ const LoadCalculationModal: React.FC<LoadCalculationModalProps> = ({calculationT
     );
 };
 
-export {LoadCalculationModal};
+export { LoadCalculationModal };

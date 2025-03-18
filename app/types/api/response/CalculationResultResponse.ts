@@ -1,4 +1,4 @@
-import {CalculationType} from "~/types/calculation/CalculationType";
+import { CalculationType } from "~/types/calculation/CalculationType";
 
 type CalculationResultResponse = {
     id: string;
@@ -7,4 +7,4 @@ type CalculationResultResponse = {
     userData: string;
 };
 
-export type {CalculationResultResponse};
+export type { CalculationResultResponse };

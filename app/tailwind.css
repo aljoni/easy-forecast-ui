@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.rdp-root {
+    --rdp-accent-color: #361D2E;
+    --rdp-accent-background-color: #FB731B;
+}
+
 /*noinspection ALL*/
 @view-transition {
     navigation: auto;

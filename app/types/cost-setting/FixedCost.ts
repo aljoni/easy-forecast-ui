@@ -1,4 +1,4 @@
-import {CostSettingCategoryType} from "~/types";
+import { CostSettingCategoryType } from "~/types";
 
 type FixedCost = {
     id?: string;
@@ -10,4 +10,4 @@ type FixedCost = {
     period: "days" | "weeks" | "months" | "years";
 }
 
-export type {FixedCost};
+export type { FixedCost };

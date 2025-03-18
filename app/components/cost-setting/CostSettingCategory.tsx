@@ -1,11 +1,11 @@
 import React from "react";
 
-import {Dropdown} from "~/components";
-import {CostSettingCategoryType} from "~/types";
+import { Dropdown } from "~/components";
+import { CostSettingCategoryType } from "~/types";
 
 type CostSettingCategoryProps = {
     selected?: string;
-    onChange: (value: string) => void;
+    onChange: (value: CostSettingCategoryType) => void;
 };
 
 const costSettingCategories: Record<CostSettingCategoryType, string> = {
@@ -14,20 +14,20 @@ const costSettingCategories: Record<CostSettingCategoryType, string> = {
     other: "Other",
 };
 
-const CostSettingCategory: React.FC<CostSettingCategoryProps> = ({selected, onChange}) => {
+const CostSettingCategory: React.FC<CostSettingCategoryProps> = ({ selected, onChange }) => {
     return (
         <Dropdown
             options={
                 Object
                     .entries(costSettingCategories)
-                    .map(([value, label]) => ({label, value}))
+                    .map(([value, label]) => ({ label, value }))
             }
             selected={selected ?? "uncategorized"}
-            onChange={onChange}
+            onChange={(value) => onChange(value as CostSettingCategoryType)}
             variant="secondary"
             size="sm"
         />
     );
 };
 
-export {CostSettingCategory};
+export { CostSettingCategory };

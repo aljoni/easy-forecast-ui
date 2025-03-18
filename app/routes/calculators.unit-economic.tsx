@@ -1,10 +1,10 @@
 import React from "react";
-import {MetaFunction} from "@remix-run/node";
+import { MetaFunction } from "@remix-run/node";
 
-import {Page, UnitEconomicCalculator, NotificationType, useNotifications} from "~/components";
+import { Page, UnitEconomicCalculator, NotificationType, useNotifications } from "~/components";
 
 export const meta: MetaFunction = () => {
-    return [{title: "Unit Economic Calculator"}];
+    return [{ title: "Unit Economic Calculator" }];
 };
 
 const CalculatorsUnitEconomic: React.FC = () => {
@@ -16,7 +16,7 @@ const CalculatorsUnitEconomic: React.FC = () => {
 
     return (
         <Page>
-            <UnitEconomicCalculator onNotify={handleNotify}/>
+            <UnitEconomicCalculator onNotify={handleNotify} />
         </Page>
     );
 };

@@ -10,4 +10,4 @@ type ErrorDetail = {
     message: string;
 };
 
-export type {ApiResponse, ErrorDetail};
+export type { ApiResponse, ErrorDetail };

@@ -1,16 +1,16 @@
-import React, {useCallback, useEffect, useState} from "react";
-import {FaFolderOpen, FaPlus} from "react-icons/fa6";
-import {FaSave} from "react-icons/fa";
+import React, { useCallback, useEffect, useState } from "react";
+import { FaFolderOpen, FaPlus } from "react-icons/fa6";
+import { FaSave } from "react-icons/fa";
 
-import {saveCalculationResult, updateCalculationResult} from "~/api";
-import {Button, Card, CalculatorResultRow, TextField, LoadCalculationModal, NotificationType} from "~/components";
-import {CalculationResult, ROASCalculationData} from "~/types";
+import { saveCalculationResult, updateCalculationResult } from "~/api";
+import { Button, Card, CalculatorResultRow, TextField, LoadCalculationModal, NotificationType } from "~/components";
+import { CalculationResult, ROASCalculationData } from "~/types";
 
 type ROASCalculatorProps = {
     onNotify?: (message: string, type: NotificationType) => void;
 };
 
-const ROASCalculator: React.FC<ROASCalculatorProps> = ({onNotify}) => {
+const ROASCalculator: React.FC<ROASCalculatorProps> = ({ onNotify }) => {
     // -- User provided values
     const [id, setId] = useState<string | null>(null);
     const [name, setName] = useState<string>(`Result for ${new Date().toLocaleDateString()}`);
@@ -193,12 +193,12 @@ const ROASCalculator: React.FC<ROASCalculatorProps> = ({onNotify}) => {
                     {
                         label: "New",
                         onClick: handleNew,
-                        icon: <FaPlus/>,
+                        icon: <FaPlus />,
                     },
                     {
                         label: "Load",
                         onClick: handleOpenModal,
-                        icon: <FaFolderOpen/>,
+                        icon: <FaFolderOpen />,
                     },
                 ]}
             >
@@ -286,10 +286,10 @@ const ROASCalculator: React.FC<ROASCalculatorProps> = ({onNotify}) => {
                 <div className="border border-stone-200 rounded-lg mb-8">
                     <table className="w-full">
                         <tbody>
-                        <CalculatorResultRow label="Profit per Order (without ad spend)"
-                                             value={profitPerOrder}/>
-                        <CalculatorResultRow label="Net Profit per Order" value={netPerOrder}/>
-                        <CalculatorResultRow label="12M LTV Profit" value={twelveMonthLTV}/>
+                            <CalculatorResultRow label="Profit per Order (without ad spend)"
+                                value={profitPerOrder} />
+                            <CalculatorResultRow label="Net Profit per Order" value={netPerOrder} />
+                            <CalculatorResultRow label="12M LTV Profit" value={twelveMonthLTV} />
                         </tbody>
                     </table>
                 </div>
@@ -300,7 +300,7 @@ const ROASCalculator: React.FC<ROASCalculatorProps> = ({onNotify}) => {
                         size="md"
                         onClick={handleSave}
                         accessibilityLabel="Save calculation"
-                        icon={<FaSave/>}
+                        icon={<FaSave />}
                     >
                         Save Calculation
                     </Button>
@@ -310,4 +310,4 @@ const ROASCalculator: React.FC<ROASCalculatorProps> = ({onNotify}) => {
     );
 };
 
-export {ROASCalculator}
+export { ROASCalculator }

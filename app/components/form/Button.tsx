@@ -1,7 +1,7 @@
 import React from "react";
-import {twMerge} from "tailwind-merge";
+import { twMerge } from "tailwind-merge";
 
-import {ComponentSize, ComponentVariant} from "~/types";
+import { ComponentSize, ComponentVariant } from "~/types";
 
 type ButtonProps = {
     children: React.ReactNode;
@@ -13,13 +13,13 @@ type ButtonProps = {
 }
 
 const Button: React.FC<ButtonProps> = ({
-                                           children,
-                                           onClick,
-                                           variant = "primary",
-                                           size = "md",
-                                           icon,
-                                           accessibilityLabel
-                                       }) => {
+    children,
+    onClick,
+    variant = "primary",
+    size = "md",
+    icon,
+    accessibilityLabel
+}) => {
     return (
         <button
             className={twMerge([
@@ -46,4 +46,4 @@ const Button: React.FC<ButtonProps> = ({
     );
 };
 
-export {Button};
+export { Button };

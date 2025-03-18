@@ -1,4 +1,4 @@
-import {ApiResponse} from "~/types/api/response/ApiResponse";
+import { ApiResponse } from "~/types/api/response/ApiResponse";
 
 const API_BASE_URL = "http://localhost:8094";
 
@@ -23,7 +23,7 @@ const performRequest = async <T>(method: string, path: string, query: Record<str
     if (state === null || shop === null) {
         // TODO: Request user re-open the app
         console.error("[client] state or shop not found");
-        return {responseStatus: "ERROR", payload: null, errors: []};
+        return { responseStatus: "ERROR", payload: null, errors: [] };
     }
 
     // -- Build URL
@@ -52,7 +52,7 @@ const performRequest = async <T>(method: string, path: string, query: Record<str
     try {
         return JSON.parse(rawResponse);
     } catch (e) {
-        return {responseStatus: "OK", payload: null, errors: []};
+        return { responseStatus: "OK", payload: null, errors: [] };
     }
 };
 
@@ -64,7 +64,7 @@ const performRequest = async <T>(method: string, path: string, query: Record<str
  *
  * @returns API response
  */
-const performGet = async <T>({path, query = {}}: {
+const performGet = async <T>({ path, query = {} }: {
     path: string,
     query?: Record<string, string>
 }): Promise<ApiResponse<T | null>> => {
@@ -80,7 +80,7 @@ const performGet = async <T>({path, query = {}}: {
  *
  * @returns API response
  */
-const performPost = async <T>({path, query = {}, body = null}: {
+const performPost = async <T>({ path, query = {}, body = null }: {
     path: string,
     query?: Record<string, string>,
     body?: Body
@@ -97,7 +97,7 @@ const performPost = async <T>({path, query = {}, body = null}: {
  *
  * @returns API response
  */
-const performUpdate = async <T>({path, query = {}, body = null}: {
+const performUpdate = async <T>({ path, query = {}, body = null }: {
     path: string,
     query?: Record<string, string>,
     body?: Body
@@ -114,7 +114,7 @@ const performUpdate = async <T>({path, query = {}, body = null}: {
  *
  * @returns API response
  */
-const performPut = async <T>({path, query = {}, body = null}: {
+const performPut = async <T>({ path, query = {}, body = null }: {
     path: string,
     query?: Record<string, string>,
     body?: Body
@@ -131,7 +131,7 @@ const performPut = async <T>({path, query = {}, body = null}: {
  *
  * @returns API response
  */
-const performDelete = async <T>({path, query = {}, body = null}: {
+const performDelete = async <T>({ path, query = {}, body = null }: {
     path: string,
     query?: Record<string, string>
     body?: Body
@@ -139,4 +139,4 @@ const performDelete = async <T>({path, query = {}, body = null}: {
     return await performRequest<T>("DELETE", path, query, body);
 };
 
-export {performRequest, performGet, performPost, performUpdate, performPut, performDelete};
+export { performRequest, performGet, performPost, performUpdate, performPut, performDelete };

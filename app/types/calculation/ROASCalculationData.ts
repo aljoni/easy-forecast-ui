@@ -9,4 +9,4 @@ type ROASCalculationData = {
     frequencyOfPurchase: string;
 };
 
-export type {ROASCalculationData};
+export type { ROASCalculationData };

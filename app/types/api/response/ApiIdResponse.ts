@@ -2,4 +2,4 @@ type ApiIdResponse = {
     id: string;
 }
 
-export type {ApiIdResponse};
+export type { ApiIdResponse };

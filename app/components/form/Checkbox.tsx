@@ -6,7 +6,7 @@ type CheckboxProps = {
     onChange: (checked: boolean) => void;
 };
 
-const Checkbox: React.FC<CheckboxProps> = ({label, checked, onChange}) => {
+const Checkbox: React.FC<CheckboxProps> = ({ label, checked, onChange }) => {
     return (
         <label className="flex items-center gap-2">
             <input
@@ -19,4 +19,4 @@ const Checkbox: React.FC<CheckboxProps> = ({label, checked, onChange}) => {
     );
 };
 
-export {Checkbox};
+export { Checkbox };

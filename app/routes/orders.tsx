@@ -1,10 +1,10 @@
 import React from "react";
-import {MetaFunction} from "@remix-run/node";
+import { MetaFunction } from "@remix-run/node";
 
-import {Card, Page} from "~/components";
+import { Card, Page } from "~/components";
 
 export const meta: MetaFunction = () => {
-    return [{title: "Orders"}];
+    return [{ title: "Orders" }];
 };
 
 const Calculators: React.FC = () => {

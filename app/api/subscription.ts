@@ -1,5 +1,5 @@
-import {performDelete, performPost, performPut} from "~/api/client";
-import {ApiSubscriptionResponse} from "~/types/api/response/ApiSubscriptionResponse";
+import { performDelete, performPost, performPut } from "~/api/client";
+import { ApiSubscriptionResponse } from "~/types/api/response/ApiSubscriptionResponse";
 
 /**
  * Sends the charge ID to the backend.
@@ -45,7 +45,7 @@ const createSubscription = async (tier: string): Promise<ApiSubscriptionResponse
  * Cancels the user subscription through the backend.
  */
 const cancelSubscription = async (): Promise<void> => {
-    const response = await performDelete<void>({path: "/subscription"});
+    const response = await performDelete<void>({ path: "/subscription" });
 
     if (response.responseStatus !== "OK") {
         throw new Error("Failed to cancel subscription");

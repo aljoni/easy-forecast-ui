@@ -1,5 +1,5 @@
 import React from "react";
-import {MetaFunction} from "@remix-run/node";
+import { MetaFunction } from "@remix-run/node";
 
 import {
     Page,
@@ -10,7 +10,7 @@ import {
 } from "~/components";
 
 export const meta: MetaFunction = () => {
-    return [{title: "ROAS Calculator"}];
+    return [{ title: "ROAS Calculator" }];
 };
 
 const CalculatorsROAS: React.FC = () => {
@@ -22,7 +22,7 @@ const CalculatorsROAS: React.FC = () => {
 
     return (
         <Page>
-            <ROASCalculator onNotify={handleNotify}/>
+            <ROASCalculator onNotify={handleNotify} />
         </Page>
     );
 };

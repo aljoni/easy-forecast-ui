@@ -1,15 +1,15 @@
-import type {MetaFunction} from "@remix-run/node";
-import {ComponentSize, ComponentVariant} from "~/types/ComponentInfo";
-import {useSearchParams} from "@remix-run/react";
-import {createSubscription, sendChargeIdRequest} from "~/api/subscription";
-import {useEffect} from "react";
-import {useNotifications} from "~/components/NotificationProvider";
-import {Page, Card, Button, Dropdown, TextField} from "~/components";
+import type { MetaFunction } from "@remix-run/node";
+import { ComponentSize, ComponentVariant } from "~/types/ComponentInfo";
+import { useSearchParams } from "@remix-run/react";
+import { createSubscription, sendChargeIdRequest } from "~/api/subscription";
+import { useEffect } from "react";
+import { useNotifications } from "~/components/NotificationProvider";
+import { Page, Card, Button, Dropdown, TextField } from "~/components";
 
 export const meta: MetaFunction = () => {
     return [
-        {title: "Easy Forecast"},
-        {name: "description", content: "Manage your business forecasting with ease."},
+        { title: "Easy Forecast" },
+        { name: "description", content: "Manage your business forecasting with ease." },
     ];
 };
 
@@ -93,9 +93,9 @@ export default function Index() {
                                 <div key={`${size}-${variant}`} className="flex flex-row gap-2">
                                     <Dropdown
                                         options={[
-                                            {label: "Option 1", value: "option-1"},
-                                            {label: "Option 2", value: "option-2"},
-                                            {label: "Option 3", value: "option-3"},
+                                            { label: "Option 1", value: "option-1" },
+                                            { label: "Option 2", value: "option-2" },
+                                            { label: "Option 3", value: "option-3" },
                                         ]}
                                         selected="option-1"
                                         onChange={() => {
@@ -140,7 +140,7 @@ export default function Index() {
                                         prefix="£"
                                         suffix="%"
                                         variant={variant as ComponentVariant}
-                                        size={size as ComponentSize}
+                                        inputSize={size as ComponentSize}
                                     />
                                     <TextField
                                         label={`${size} ${variant} text field`}
@@ -149,7 +149,7 @@ export default function Index() {
                                         }}
                                         disabled
                                         variant={variant as ComponentVariant}
-                                        size={size as ComponentSize}
+                                        inputSize={size as ComponentSize}
                                     />
                                 </div>
                             ))}

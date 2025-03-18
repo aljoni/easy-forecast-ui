@@ -1,8 +1,8 @@
-import {ApiIdResponse} from "~/types/api/response/ApiIdResponse";
-import {performGet, performPost, performPut} from "~/api/client";
-import {CalculationResult} from "~/types/calculation/CalculationResult";
-import {CalculationResultResponse} from "~/types/api/response/CalculationResultResponse";
-import {CalculationType} from "~/types/calculation/CalculationType";
+import { ApiIdResponse } from "~/types/api/response/ApiIdResponse";
+import { performGet, performPost, performPut } from "~/api/client";
+import { CalculationResult } from "~/types/calculation/CalculationResult";
+import { CalculationResultResponse } from "~/types/api/response/CalculationResultResponse";
+import { CalculationType } from "~/types/calculation/CalculationType";
 
 /**
  * Saves a calculation result to the backend.
@@ -74,7 +74,7 @@ const getCalculationResult = async (calculationResultId: string): Promise<Calcul
 const getCalculationResults = async (calculationType?: CalculationType): Promise<CalculationResultResponse[] | null> => {
     const response = await performGet<CalculationResultResponse[]>({
         path: "/calculation",
-        query: calculationType ? {calculationType} : undefined,
+        query: calculationType ? { calculationType } : undefined,
     });
 
     if (response.responseStatus !== "OK") {

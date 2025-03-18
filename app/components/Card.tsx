@@ -1,8 +1,8 @@
 import React from "react";
-import {twMerge} from "tailwind-merge";
+import { twMerge } from "tailwind-merge";
 
-import {Button} from "~/components";
-import {ComponentVariant} from "~/types";
+import { Button } from "~/components";
+import { ComponentVariant } from "~/types";
 
 type CardProps = {
     title?: string;
@@ -16,7 +16,7 @@ type CardProps = {
     }[];
 }
 
-const Card: React.FC<CardProps> = ({title, children, className, actions}) => {
+const Card: React.FC<CardProps> = ({ title, children, className, actions }) => {
     return (
         <div className={twMerge(["rounded-lg bg-white", className])}>
             <div className="flex flex-col gap-6 p-6">
@@ -52,4 +52,4 @@ const Card: React.FC<CardProps> = ({title, children, className, actions}) => {
     );
 };
 
-export {Card};
+export { Card };

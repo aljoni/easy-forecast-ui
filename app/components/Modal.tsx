@@ -1,6 +1,6 @@
 import React from "react";
-import {FaXmark} from "react-icons/fa6";
-import {twMerge} from "tailwind-merge";
+import { FaXmark } from "react-icons/fa6";
+import { twMerge } from "tailwind-merge";
 
 type ModalProps = {
     title?: string;
@@ -10,11 +10,11 @@ type ModalProps = {
 };
 
 export const Modal: React.FC<ModalProps> = ({
-                                                title,
-                                                isOpen,
-                                                onClose,
-                                                children,
-                                            }) => {
+    title,
+    isOpen,
+    onClose,
+    children,
+}) => {
     return (
         <div
             className={twMerge(["fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/75", isOpen ? "" : "hidden"])}
@@ -30,7 +30,7 @@ export const Modal: React.FC<ModalProps> = ({
                         onClick={onClose}
                     >
                         <span className="sr-only">Close</span>
-                        <FaXmark/>
+                        <FaXmark />
                     </button>
                 </div>
                 {children}

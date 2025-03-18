@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 
-import {CostSettingType} from "~/types";
-import {Card, CostSettingCategory, TextField} from "~/components";
+import { CostSettingCategoryType, CostSettingType } from "~/types";
+import { Card, CostSettingCategory, DateField, Dropdown, TextField } from "~/components";
 
 type CostSettingCardProps = {
     type: CostSettingType;
@@ -12,7 +12,7 @@ const titleMap: Record<CostSettingType, string> = {
     variable: "Variable Costs",
 };
 
-const buildHeader = (type: CostSettingType): React.ReactNode => {
+const CostsHeader: React.FC<{ type: CostSettingType }> = ({ type }): React.ReactNode => {
     const rowClassName = "text-sm text-stone-600";
     const thClassName = "text-left font-medium px-1 py-2";
 
@@ -38,49 +38,9 @@ const buildHeader = (type: CostSettingType): React.ReactNode => {
     }
 };
 
-const buildFixedRow = (): React.ReactNode => {
-    const tdClassName = "p-1";
 
-    return (
-        <tr className="h-8">
-            <td className={tdClassName}>
-                <CostSettingCategory
-                    onChange={(value) => console.log(value)}
-                />
-            </td>
-            <td className={tdClassName}>
-                <TextField
-                    size="sm"
-                    prefix="£"
-                    autoComplete="off"
-                    value=""
-                />
-            </td>
-            <td className={tdClassName}colSpan={2}>
-                <input type="date"/>
-            </td>
-            <td className={tdClassName}>
-                <div className="flex flex-row gap-2 items-center">
-                    <span className="text-sm font-medium text-stone-500">Every</span>
-                    <TextField
-                        autoComplete="off"
-                        value=""
-                        className="w-12"
-                        size="sm"
-                    />
-                    <TextField
-                        autoComplete="off"
-                        value=""
-                        className="w-28"
-                        size="sm"
-                    />
-                </div>
-            </td>
-        </tr>
-    );
-};
 
-const buildVariableRow = (): React.ReactNode => {
+const VariableCostRow: React.FC = () => {
     return (
         <tr>
             <td>
@@ -93,11 +53,18 @@ const buildVariableRow = (): React.ReactNode => {
                     prefix="£"
                     autoComplete="off"
                     value=""
-                    size="sm"
+                    inputSize="sm"
                 />
             </td>
             <td colSpan={2}>
-                <input type="date"/>
+                <DateField
+                    startDate={new Date()}
+                    endDate={new Date()}
+                    onChange={(startDate, endDate) => {
+                        console.log(startDate, endDate);
+                    }}
+                    inputSize="sm"
+                />
             </td>
             <td>
                 <div className="flex flex-row gap-2 items-center">
@@ -106,14 +73,14 @@ const buildVariableRow = (): React.ReactNode => {
                         value=""
                         className="w-16"
                         suffix="%"
-                        size="sm"
+                        inputSize="sm"
                     />
                     <span className="text-sm font-medium text-stone-500">of</span>
                     <TextField
                         autoComplete="off"
                         value=""
                         className="w-28"
-                        size="sm"
+                        inputSize="sm"
                     />
                 </div>
             </td>
@@ -121,23 +88,23 @@ const buildVariableRow = (): React.ReactNode => {
     );
 };
 
-const CostSettingCard: React.FC<CostSettingCardProps> = ({type}) => {
+const CostSettingCard: React.FC<CostSettingCardProps> = ({ type }) => {
     return (
         <Card title={titleMap[type]} className="mx-auto">
             <table>
                 <thead>
-                {buildHeader(type)}
+                    <CostsHeader type={type} />
                 </thead>
                 <tbody>
-                {type === "fixed" && buildFixedRow()}
-                {type === "fixed" && buildFixedRow()}
-                {type === "fixed" && buildFixedRow()}
-                {type === "variable" && buildVariableRow()}
+                    {type === "fixed" && <FixedCostRow />}
+                    {type === "fixed" && <FixedCostRow />}
+                    {type === "fixed" && <FixedCostRow />}
+                    {type === "variable" && <VariableCostRow />}
                 </tbody>
             </table>
         </Card>
     );
 };
 
-export {CostSettingCard};
+export { CostSettingCard };
 

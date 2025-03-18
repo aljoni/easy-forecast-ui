@@ -5,7 +5,7 @@ type CalculatorResultRowProps = {
     value: string;
 };
 
-const CalculatorResultRow: React.FC<CalculatorResultRowProps> = ({label, value}) => {
+const CalculatorResultRow: React.FC<CalculatorResultRowProps> = ({ label, value }) => {
     return (
         <tr className="border-b border-slate-200 last-of-type:border-0 h-9">
             <td className="font-bold text-sm text-right font-light px-3 w-[75%]">{label}:</td>
@@ -14,4 +14,4 @@ const CalculatorResultRow: React.FC<CalculatorResultRowProps> = ({label, value})
     );
 };
 
-export {CalculatorResultRow};
+export { CalculatorResultRow };

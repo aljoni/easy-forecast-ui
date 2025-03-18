@@ -1,7 +1,7 @@
-import React, {useCallback, useEffect, useState} from "react";
-import {FaChevronRight} from "react-icons/fa6";
-import {twMerge} from "tailwind-merge";
-import {useNavigate} from "@remix-run/react";
+import React, { useCallback, useEffect, useState } from "react";
+import { FaChevronRight } from "react-icons/fa6";
+import { twMerge } from "tailwind-merge";
+import { useNavigate } from "@remix-run/react";
 
 type MenuTileProps = {
     label: string;
@@ -28,14 +28,14 @@ type SideMenuItemProps = {
 }
 
 const MenuTile: React.FC<MenuTileProps> = ({
-                                               label,
-                                               to,
-                                               currentPath,
-                                               indented = false,
-                                               expandable = false,
-                                               expanded = false,
-                                               onClick
-                                           }) => {
+    label,
+    to,
+    currentPath,
+    indented = false,
+    expandable = false,
+    expanded = false,
+    onClick
+}) => {
     const active = to && to === currentPath;
 
     return (
@@ -68,7 +68,7 @@ const MenuTile: React.FC<MenuTileProps> = ({
     );
 };
 
-const SideMenuItem: React.FC<SideMenuItemProps> = ({label, to, currentPath, subItems = [], indented = false}) => {
+const SideMenuItem: React.FC<SideMenuItemProps> = ({ label, to, currentPath, subItems = [], indented = false }) => {
     const navigate = useNavigate();
     const [expanded, setExpanded] = useState(false);
 
@@ -83,7 +83,7 @@ const SideMenuItem: React.FC<SideMenuItemProps> = ({label, to, currentPath, subI
             localStorage.setItem(`menu_item.${label}.is_open`, String(newExpandedState));
         }
         if (to) {
-            navigate(to, {viewTransition: true});
+            navigate(to, { viewTransition: true });
         }
     }, [expanded, to, navigate, subItems.length]); // Stable dependency array
 
@@ -108,7 +108,7 @@ const SideMenuItem: React.FC<SideMenuItemProps> = ({label, to, currentPath, subI
                     ])}
                 >
                     {subItems.map((item) => (
-                        <SideMenuItem key={item.to} {...item} currentPath={currentPath} indented/>
+                        <SideMenuItem key={item.to} {...item} currentPath={currentPath} indented />
                     ))}
                 </div>
             )}
@@ -116,5 +116,5 @@ const SideMenuItem: React.FC<SideMenuItemProps> = ({label, to, currentPath, subI
     );
 }
 
-export {SideMenuItem};
-export type {SideMenuItemInfo, SideMenuItemProps};
+export { SideMenuItem };
+export type { SideMenuItemInfo, SideMenuItemProps };
